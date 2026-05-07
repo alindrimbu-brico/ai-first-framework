@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Framework-ul Business AI-First | De la Instrument la Sistem de Operare</title>
+    <meta name="description" content="Ghidul complet pentru transformarea companiei tale într-o organizație AI-First. Descoperă cum să implementezi AI-ul ca sistem de operare central al afacerii.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #111118;
+            --bg-card: #16161f;
+            --bg-card-hover: #1c1c28;
+            --accent: #6366f1;
+            --accent-light: #818cf8;
+            --accent-glow: rgba(99, 102, 241, 0.15);
+            --accent-secondary: #06b6d4;
+            --text-primary: #f1f1f4;
+            --text-secondary: #a1a1b5;
+            --text-muted: #6b6b80;
+            --border: #252535;
+            --gradient-1: linear-gradient(135deg, #6366f1, #06b6d4);
+            --gradient-2: linear-gradient(135deg, #6366f1, #a855f7);
+            --gradient-text: linear-gradient(135deg, #818cf8, #06b6d4);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0 2rem;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(10, 10, 15, 0.95);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .nav-brand-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--gradient-1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .nav-brand-text {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .nav-brand-text span {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.25rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            padding: 0.5rem 1rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text-primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .nav-cta {
+            padding: 0.55rem 1.25rem;
+            background: var(--gradient-1);
+            color: white !important;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 2px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 25px rgba(99, 102, 241, 0.5);
+        }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .mobile-toggle span {
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(99, 102, 241, 0.12), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 20%, rgba(6, 182, 212, 0.08), transparent),
+                radial-gradient(ellipse 50% 50% at 20% 60%, rgba(168, 85, 247, 0.06), transparent);
+            pointer-events: none;
+        }
+
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 70% 50% at 50% 40%, black, transparent);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem 0.4rem 0.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+            50% { opacity: 0.8; box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .gradient {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.05rem, 2vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.8;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 2rem;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 35px rgba(99, 102, 241, 0.5);
+        }
+
+        .btn-ghost {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-ghost:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent);
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .hero-stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .section {
+            padding: 7rem 2rem;
+            position: relative;
+        }
+
+        .section-alt {
+            background: var(--bg-secondary);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.35rem 1rem;
+            background: var(--accent-glow);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-light);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.025em;
+            margin-bottom: 1.25rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+
+        .content-block {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.9;
+            margin-bottom: 2rem;
+        }
+
+        .content-block strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 12px 12px 0;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .highlight-box p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .highlight-box strong {
+            color: var(--accent-light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-1);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--accent-glow);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .role-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.25rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .role-card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+
+        .role-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            margin: 0 auto 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+
+        .role-card:nth-child(1) .role-avatar {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05));
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .role-card:nth-child(2) .role-avatar {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(99, 102, 241, 0.05));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .role-card:nth-child(3) .role-avatar {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(168, 85, 247, 0.05));
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+
+        .role-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .role-tag {
+            display: inline-block;
+            padding: 0.2rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .role-card:nth-child(1) .role-tag {
+            background: rgba(34, 197, 94, 0.1);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .role-card:nth-child(2) .role-tag {
+            background: rgba(99, 102, 241, 0.1);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .role-card:nth-child(3) .role-tag {
+            background: rgba(168, 85, 247, 0.1);
+            color: #c084fc;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+
+        .role-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: center;
+            margin: 3rem 0;
+        }
+
+        .comparison-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+        }
+
+        .comparison-card.old { opacity: 0.7; }
+
+        .comparison-card.new {
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.08);
+        }
+
+        .comparison-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .comparison-card ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .comparison-card li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .comparison-card li .icon {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .comparison-vs {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--text-muted);
+        }
+
+        .playbook-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 2.5rem;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .step-marker {
+            width: 56px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: var(--accent-glow);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--accent-light);
+        }
+
+        .step-line {
+            width: 2px;
+            flex: 1;
+            min-height: 40px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .step-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.25rem;
+        }
+
+        .step-content h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .step-content h3 span {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 0.75rem;
+            border-radius: 100px;
+            background: var(--accent-glow);
+            color: var(--accent-light);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .step-duration {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .step-content p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .step-content p:last-of-type { margin-bottom: 0; }
+
+        .tool-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .tool-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.3rem 0.85rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .metric-bar {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .metric-bar h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .metric { text-align: center; }
+
+        .metric-value {
+            font-size: 2.25rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.35rem;
+        }
+
+        .cta-section {
+            padding: 7rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 50% 100%, rgba(99, 102, 241, 0.12), transparent),
+                radial-gradient(ellipse 40% 40% at 30% 80%, rgba(6, 182, 212, 0.06), transparent);
+            pointer-events: none;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.025em;
+            margin-bottom: 1.25rem;
+        }
+
+        .cta-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .toc {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toc a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            flex-direction: row-reverse;
+        }
+
+        .toc a .toc-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .toc a .toc-label {
+            opacity: 0;
+            transform: translateX(10px);
+            transition: all 0.2s;
+            white-space: nowrap;
+            padding: 0.2rem 0.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .toc a:hover .toc-label {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toc a.active .toc-dot {
+            background: var(--accent);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+        }
+
+        .toc a.active { color: var(--accent-light); }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1200px) {
+            .toc { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 0 1rem; }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 72px;
+                left: 0;
+                right: 0;
+                background: var(--bg-primary);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .nav-links.open { display: flex; }
+            .mobile-toggle { display: flex; }
+            .nav-cta { display: none; }
+            .hero { padding: 7rem 1.25rem 4rem; }
+            .hero-stats { flex-direction: column; gap: 1.5rem; }
+            .section { padding: 4rem 1.25rem; }
+            .roles-grid { grid-template-columns: 1fr; }
+            .comparison { grid-template-columns: 1fr; }
+            .comparison-vs { margin: 0 auto; }
+            .step { grid-template-columns: 1fr; }
+            .step-marker { flex-direction: row; width: auto; }
+            .step-line { display: none; }
+            .metrics { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+    </style>
+</head>
+<body>
+
+<nav id="navbar">
+    <a href="#" class="nav-brand">
+        <div class="nav-brand-icon">AI</div>
+        <div class="nav-brand-text"><span>AI-First</span> Framework</div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#intro">Introducere</a></li>
+        <li><a href="#brain">Creierul de Business</a></li>
+        <li><a href="#org">Organigrama</a></li>
+        <li><a href="#tokens">Token Maxing</a></li>
+        <li><a href="#playbook">Playbook</a></li>
+    </ul>
+    <a href="#playbook" class="nav-cta">Implementeaza Acum &#8594;</a>
+    <div class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<div class="toc" id="toc">
+    <a href="#intro"><span class="toc-label">Introducere</span><span class="toc-dot"></span></a>
+    <a href="#brain"><span class="toc-label">Creierul de Business</span><span class="toc-dot"></span></a>
+    <a href="#org"><span class="toc-label">Noua Organigrama</span><span class="toc-dot"></span></a>
+    <a href="#tokens"><span class="toc-label">Token Maxing</span><span class="toc-dot"></span></a>
+    <a href="#playbook"><span class="toc-label">Playbook</span><span class="toc-dot"></span></a>
+</div>
+
+<header class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-content fade-in">
+        <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            Framework Complet &mdash; Editia 2026
+        </div>
+        <h1>
+            Transforma AI-ul din Instrument<br>
+            in <span class="gradient">Sistem de Operare</span><br>
+            al Afacerii Tale
+        </h1>
+        <p class="hero-subtitle">
+            Framework-ul complet care permite companiei tale sa delege autonom 60-80% din fluxurile de lucru catre AI, eliminand blocajele informationale si redefinind complet organigrama.
+        </p>
+        <div class="hero-actions">
+            <a href="#intro" class="btn btn-primary">Exploreaza Framework-ul &#8595;</a>
+            <a href="#playbook" class="btn btn-ghost">Playbook Implementare</a>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-value">60-80%</div>
+                <div class="hero-stat-label">Fluxuri Automatizate</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">4 Pasi</div>
+                <div class="hero-stat-label">Playbook Implementare</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">10x</div>
+                <div class="hero-stat-label">Output per Angajat</div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Sectiunea 1: Introducere -->
+<section class="section" id="intro">
+    <div class="container">
+        <div class="fade-in">
+            <span class="section-label">&#9672; Capitolul 1</span>
+            <h2 class="section-title">De la Instrument la Sistem de Operare</h2>
+            <p class="section-subtitle">
+                Majoritatea companiilor folosesc AI-ul gresit. Il trateaza ca pe un gadget periferic, nu ca pe motorul central al organizatiei. Aceasta abordare se plafoneaza inevitabil.
+            </p>
+        </div>
+
+        <div class="content-block fade-in">
+            <p>
+                Exista un plafon invizibil pe care fiecare companie il atinge atunci cand foloseste inteligenta artificiala doar ca pe un <strong>instrument punctual</strong>. Un chatbot pentru suport, un generator de texte pentru marketing, un asistent de cod pentru dezvoltatori &mdash; toate utile, dar fundamental limitate. Fiecare ramane izolat intr-un colt al organizatiei, incapabil sa comunice cu celelalte sisteme sau sa invete din contextul mai larg al afacerii.
+            </p>
+        </div>
+
+        <div class="highlight-box fade-in">
+            <p>
+                <strong>Paradigma AI-First</strong> propune o schimbare radicala de perspectiva: AI-ul nu mai este un simplu accesoriu &mdash; devine <strong>sistemul de operare central</strong> al companiei. La fel cum un sistem de operare gestioneaza toate resursele unui computer, AI-ul AI-First orchestreaza informatiile, deciziile si fluxurile de lucru ale intregii organizatii.
+            </p>
+        </div>
+
+        <div class="content-block fade-in">
+            <p>
+                In aceasta metodologie, sistemul AI ajunge sa gestioneze autonom intre <strong>60% si 80% din fluxurile de lucru</strong> ale companiei. Dar ceea ce face aceasta abordare cu adevarat revolutionara nu este doar volumul de sarcini delegate &mdash; este <strong>capacitatea exponentiala de invatare</strong>. Cu fiecare interactiune, cu fiecare decizie procesata, cu fiecare feedback primit, sistemul devine mai inteligent, mai precis si mai adaptat la specificul unic al afacerii tale.
+            </p>
+        </div>
+
+        <div class="features-grid fade-in">
+            <div class="feature-card">
+                <div class="feature-icon">&#9888;</div>
+                <h3>Abordarea Traditionala</h3>
+                <p>AI-ul ca instrument izolat. Fiecare departament foloseste unelte separate, fara integrare. Informatia ramane fragmentata. Rezultatele se plafoneaza rapid si impactul asupra afacerii este marginal.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#9889;</div>
+                <h3>Abordarea AI-First</h3>
+                <p>AI-ul ca sistem de operare central. Un singur strat inteligent conecteaza toate departamentele, invata continuu din date si operatiuni, scaleaza autonom si genereaza randamente exponentiale in timp.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sectiunea 2: Creierul de Business -->
+<section class="section section-alt" id="brain">
+    <div class="container">
+        <div class="fade-in">
+            <span class="section-label">&#9672; Capitolul 2</span>
+            <h2 class="section-title">Creierul de Business si<br>Compania Queriabila</h2>
+            <p class="section-subtitle">
+                Cel mai mare blocaj in calea automatizarii nu este tehnologia &mdash; este informatia captiva, blocata in minti si foldere disparate.
+            </p>
+        </div>
+
+        <div class="content-block fade-in">
+            <p>
+                Gandeste-te la toata cunoasterea critica din compania ta. Unde se afla? <strong>Fragmentata in mintea angajatilor</strong>, ingropata in sute de documente Google Docs, dispersata in canale Slack, ascunsa in e-mailuri vechi. Cand un angajat pleaca, ia cu el o parte din "creierul" companiei. Cand un nou angajat vine, petrece luni intregi doar incercand sa descopere cum functioneaza lucrurile.
+            </p>
+        </div>
+
+        <div class="content-block fade-in">
+            <p>
+                Aceasta este <strong>problema fundamentala</strong> pe care o rezolva conceptul de <strong>Companie Queriabila</strong>: transformarea intregii cunoasteri organizationale intr-un format structurat pe care agentii AI il pot citi, intelege si utiliza automat. Afacerea ta trebuie sa devina literalmente "interogabila" &mdash; orice informatie, de la procesul de onboarding pana la strategia de pret, trebuie sa fie accesibila instant.
+            </p>
+        </div>
+
+        <div class="highlight-box fade-in">
+            <p>
+                <strong>Creierul de Business</strong> este stratul centralizat de date &mdash; o baza de cunostinte vie, interconectata si mereu actualizata &mdash; pe care toti agentii AI o citesc automat <strong>inainte de a executa orice sarcina</strong>. Nu mai este nevoie de briefing-uri interminabile. AI-ul deja stie contextul, regulile, tonul vocii, istoricul clientului, procesele interne si obiectivele strategice.
+            </p>
+        </div>
+
+        <div class="features-grid fade-in">
+            <div class="feature-card">
+                <div class="feature-icon">&#128218;</div>
+                <h3>Cunoastere Structurata</h3>
+                <p>Toate procesele, politicile si deciziile documentate in format Markdown, organizate ca o enciclopedie interna ce devine singurul "adevar" al companiei.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#128279;</div>
+                <h3>Date Live Conectate</h3>
+                <p>Integrare in timp real cu Stripe, Slack, CRM, analytics. Creierul de Business nu este static &mdash; pulseaza cu datele live ale companiei, mereu actualizat.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#129302;</div>
+                <h3>Acces Automat AI</h3>
+                <p>Fiecare agent AI consulta automat baza de cunostinte inainte de a actiona. Zero briefing manual, zero ambiguitate, zero informatie pierduta.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sectiunea 3: Noua Organigrama -->
+<section class="section" id="org">
+    <div class="container">
+        <div class="fade-in">
+            <span class="section-label">&#9672; Capitolul 3</span>
+            <h2 class="section-title">Noua Organigrama:<br>Eliminarea Managementului de Mijloc</h2>
+            <p class="section-subtitle">
+                AI-ul preia functia de "middleware informational", facand complet redundanta nevoia de manageri de mijloc care doar transmit informatii intre niveluri.
+            </p>
+        </div>
+
+        <div class="content-block fade-in">
+            <p>
+                In organizatiile traditionale, managerii de mijloc servesc in principal ca <strong>routere umane de informatie</strong>. Ei colecteaza rapoarte de la echipe, le sintetizeaza, le transmit mai sus. Primesc directive de sus, le traduc, le distribuie in jos. Organizeaza sedinte de aliniere. Urmaresc statusul proiectelor. Aceasta functie de <strong>"middleware uman"</strong> reprezinta un cost enorm &mdash; nu doar financiar, ci si in viteza si fidelitate a informatiei.
+            </p>
+        </div>
+
+        <div class="content-block fade-in">
+            <p>
+                Intr-o companie AI-First, sistemul AI preia integral aceasta sarcina. Directioneaza informatiile automat, monitorizeaza progresul, identifica blocajele si escaledeaza doar exceptiile reale. Rezultatul? <strong>O organigrama radical simplificata</strong> cu doar trei roluri fundamentale:
+            </p>
+        </div>
+
+        <div class="roles-grid fade-in">
+            <div class="role-card">
+                <div class="role-avatar">&#128736;</div>
+                <span class="role-tag">Executie</span>
+                <h3>Contribuitorul Individual</h3>
+                <p>Foloseste AI-ul zilnic ca multiplicator de forta. Construieste prototipuri rapid, automatizeaza propriile sarcini repetitive si livreaza la capacitatea a 3-5 persoane traditionale.</p>
+            </div>
+            <div class="role-card">
+                <div class="role-avatar">&#127919;</div>
+                <span class="role-tag">Responsabilitate</span>
+                <h3>DRI &mdash; Individul Direct Responsabil</h3>
+                <p>Renunta complet la managementul de personal. Capata responsabilitatea unui rezultat final clar si concret. Revizuieste si valideaza munca AI-ului, asigurand calitatea fiecarui output.</p>
+            </div>
+            <div class="role-card">
+                <div class="role-avatar">&#128161;</div>
+                <span class="role-tag">Viziune</span>
+                <h3>Fondatorul AI</h3>
+                <p>Liderul care directioneaza intregul sistem. Defineste viziunea strategica, seteaza obiectivele macro si orchestreaza arhitectura AI-ului ca sistem de operare central al companiei.</p>
+            </div>
+        </div>
+
+        <div class="highlight-box fade-in" style="margin-top: 2.5rem;">
+            <p>
+                Aceasta restructurare nu inseamna "concedieri". Inseamna <strong>redistribuirea talentului</strong> catre roluri cu impact direct. Fostul manager devine DRI sau Contribuitor Individual cu supraputeri AI &mdash; producand, nu doar coordonand.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Sectiunea 4: Token Maxing -->
+<section class="section section-alt" id="tokens">
+    <div class="container">
+        <div class="fade-in">
+            <span class="section-label">&#9672; Capitolul 4</span>
+            <h2 class="section-title">Token Maxing vs.<br>Cresterea Numarului de Angajati</h2>
+            <p class="section-subtitle">
+                Pilonul economic al strategiei AI-First: scalezi prin putere de calcul, nu prin forta de munca.
+            </p>
+        </div>
+
+        <div class="content-block fade-in">
+            <p>
+                Modelul traditional de scalare este simplu si scump: mai multi clienti = mai multi angajati. Fiecare noua persoana aduce nu doar salariu, ci si costuri de recrutare, training, management, spatiu, echipamente, beneficii &mdash; si, inevitabil, complexitate organizationala crescuta. <strong>Token Maxing</strong> propune o alternativa radical mai eficienta.
+            </p>
+        </div>
+
+        <div class="comparison fade-in">
+            <div class="comparison-card old">
+                <h3><span style="color: #ef4444;">&#10005;</span> Scalare Traditionala</h3>
+                <ul>
+                    <li><span class="icon" style="color: #ef4444;">&#8226;</span> Costuri salariale exponentiale</li>
+                    <li><span class="icon" style="color: #ef4444;">&#8226;</span> Complexitate manageriala crescanda</li>
+                    <li><span class="icon" style="color: #ef4444;">&#8226;</span> Luni de onboarding per angajat</li>
+                    <li><span class="icon" style="color: #ef4444;">&#8226;</span> Succes = marimea echipei</li>
+                    <li><span class="icon" style="color: #ef4444;">&#8226;</span> Output limitat de capacitatea umana</li>
+                </ul>
+            </div>
+            <div class="comparison-vs">VS</div>
+            <div class="comparison-card new">
+                <h3><span style="color: #22c55e;">&#10003;</span> Token Maxing</h3>
+                <ul>
+                    <li><span class="icon" style="color: #22c55e;">&#8226;</span> Facturi API previzibile si scalabile</li>
+                    <li><span class="icon" style="color: #22c55e;">&#8226;</span> Zero complexitate de management</li>
+                    <li><span class="icon" style="color: #22c55e;">&#8226;</span> Scalare instant, fara onboarding</li>
+                    <li><span class="icon" style="color: #22c55e;">&#8226;</span> Succes = output per angajat</li>
+                    <li><span class="icon" style="color: #22c55e;">&#8226;</span> Output nelimitat prin putere de calcul</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-block fade-in">
+            <p>
+                Rentabilitatea este clara: <strong>facturile mari pentru API-uri si software AI</strong> inlocuiesc costurile uriase ale unei echipe supradimensionate. O factura de 5.000 EUR pe luna pentru API-uri AI poate genera munca echivalenta a 10-15 angajati suplimentari. Succesul nu se mai masoara in marimea echipei, ci in <strong>volumul de rezultate (output) per angajat</strong>.
+            </p>
+        </div>
+
+        <div class="metric-bar fade-in">
+            <h3>Noile Metrici de Performanta AI-First</h3>
+            <div class="metrics">
+                <div class="metric">
+                    <div class="metric-value">10x</div>
+                    <div class="metric-label">Output per Angajat</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">-70%</div>
+                    <div class="metric-label">Cost Operational</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">24/7</div>
+                    <div class="metric-label">Capacitate Non-Stop</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">&lt;1h</div>
+                    <div class="metric-label">Time to Scale</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sectiunea 5: Playbook -->
+<section class="section" id="playbook">
+    <div class="container">
+        <div class="fade-in">
+            <span class="section-label">&#9672; Capitolul 5</span>
+            <h2 class="section-title">Playbook-ul de Implementare<br>in 4 Pasi</h2>
+            <p class="section-subtitle">
+                Ghidul operational concret pentru transformarea companiei tale intr-o organizatie AI-First, de la primele experimente la scalare completa.
+            </p>
+        </div>
+
+        <div class="playbook-steps">
+            <div class="step fade-in">
+                <div class="step-marker">
+                    <div class="step-number">01</div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step-content">
+                    <h3>Invatare (Learn) <span>1-2 Saptamani</span></h3>
+                    <p class="step-duration">Faza de activare &mdash; Momentul de revelatie al echipei</p>
+                    <p>
+                        Primul pas este declansarea unui <strong>"moment de revelatie"</strong> (aha moment) in fiecare membru al echipei. Nu prin prezentari teoretice sau workshop-uri abstracte, ci prin <strong>utilizarea practica, zilnica</strong> a instrumentelor AI. Fiecare persoana trebuie sa experimenteze personal ce inseamna sa finalizezi in 10 minute o sarcina care obisnuia sa dureze 3 ore.
+                    </p>
+                    <p>
+                        Diferentele intre instrumente conteaza enorm in aceasta faza. <strong>Claude Code</strong> este instrumentul pentru fondatori si utilizatori tehnici &mdash; ruleaza direct in terminal, oferind putere absoluta de executie asupra fisierelor, codului si sistemelor. <strong>Claude Co-work</strong> este aplicatia cu interfata vizuala sigura si restrictiva, creata special pentru echipe non-tehnice &mdash; accesibila, usor de folosit si imposibil de "stricat".
+                    </p>
+                    <div class="tool-badges">
+                        <span class="tool-badge">&#9654; Claude Code</span>
+                        <span class="tool-badge">&#9654; Claude Co-work</span>
+                        <span class="tool-badge">&#9654; Terminal / IDE</span>
+                        <span class="tool-badge">&#9654; Hands-on Daily</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step fade-in">
+                <div class="step-marker">
+                    <div class="step-number">02</div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step-content">
+                    <h3>Conectare (Wire) <span>2-4 Saptamani</span></h3>
+                    <p class="step-duration">Construirea Creierului de Business</p>
+                    <p>
+                        Acesta este pasul cel mai critic: <strong>construirea practica a Creierului de Business</strong>. Incepi prin documentarea sistematica a cunoasterii organizationale in <strong>fisiere structurate Markdown (Claude MD)</strong> &mdash; reguli de business, procese, ghiduri de stil, criterii de calitate, know-how tehnic &mdash; totul capturabil in format text structurat.
+                    </p>
+                    <p>
+                        Aceste fisiere se integreaza intr-o <strong>baza de cunostinte interconectata</strong> precum Obsidian &mdash; o "Wikipedia interna" a companiei, unde fiecare document trimite catre altele prin legaturi bidirectionale. Dar un creier static e un creier mort. Esential este conectarea cu <strong>fluxuri de date live</strong>: Stripe pentru tranzactii, Slack pentru comunicare, CRM-ul pentru relatii cu clientii, analytics pentru performanta. Sistemul respira date actualizate permanent.
+                    </p>
+                    <div class="tool-badges">
+                        <span class="tool-badge">&#9654; Markdown / Claude MD</span>
+                        <span class="tool-badge">&#9654; Obsidian</span>
+                        <span class="tool-badge">&#9654; Stripe API</span>
+                        <span class="tool-badge">&#9654; Slack API</span>
+                        <span class="tool-badge">&#9654; CRM</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step fade-in">
+                <div class="step-marker">
+                    <div class="step-number">03</div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step-content">
+                    <h3>Automatizare (Automate) <span>4-8 Saptamani</span></h3>
+                    <p class="step-duration">Bucle Inchise si Hamuri de Testare</p>
+                    <p>
+                        Aici magia incepe cu adevarat. Sistemul functioneaza pe <strong>Bucle Inchise (Closed Loops)</strong> &mdash; cicluri autonome care se autoregleaza si invata constant. Un agent AI scrie un e-mail de sales, il compara cu criteriile de calitate, il rescrie daca nu corespunde, apoi il trimite. Altul analizeaza feedback-ul clientilor, identifica patternuri si actualizeaza automat FAQ-ul. Fiecare bucla devine mai precisa cu fiecare iteratie.
+                    </p>
+                    <p>
+                        Cheia controlului sunt <strong>Hamurile de Testare (Test Harnesses)</strong> &mdash; standarde clare de calitate, setate de oameni, prin care AI-ul isi verifica singur rezultatele. "E-mailul trebuie sa fie sub 150 cuvinte, sa mentioneze beneficiul principal, sa aiba un CTA clar" &mdash; criterii obiective pe care AI-ul le aplica automat, iterand pana la perfectiune. Omul seteaza standardul; AI-ul executa si se autoevalueaza.
+                    </p>
+                    <div class="tool-badges">
+                        <span class="tool-badge">&#9654; Closed Loops</span>
+                        <span class="tool-badge">&#9654; Test Harnesses</span>
+                        <span class="tool-badge">&#9654; Self-evaluation</span>
+                        <span class="tool-badge">&#9654; Auto-iteration</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step fade-in">
+                <div class="step-marker">
+                    <div class="step-number">04</div>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step-content">
+                    <h3>Scalare (Scale) <span>Continuu</span></h3>
+                    <p class="step-duration">Token Maxing si Departamente AI</p>
+                    <p>
+                        Acum compania capitalizeaza pe autonomia castigata. Cu <strong>60-80% din fluxurile de lucru automatizate</strong>, echipa umana se concentreaza exclusiv pe strategie, relatii si inovatie &mdash; activitatile cu cel mai mare ROI. Capacitatea eliberata se redirectioneaza catre atragerea de noi clienti si multiplicarea veniturilor.
+                    </p>
+                    <p>
+                        Se aplica <strong>Token Maxing</strong> la scara: in loc sa angajezi un departament de customer success cu 10 persoane, construiesti un <strong>"departament AI"</strong> supervizat de un singur DRI. Apoi repeti pentru marketing, operatiuni, analiza. Fiecare nou "departament AI" adauga capacitate fara a adauga complexitate. Sub conducerea vizionara a <strong>Fondatorului AI</strong>, compania adauga continuu noi abilitati si multiplica output-ul.
+                    </p>
+                    <div class="tool-badges">
+                        <span class="tool-badge">&#9654; Token Maxing</span>
+                        <span class="tool-badge">&#9654; AI Departments</span>
+                        <span class="tool-badge">&#9654; DRI Oversight</span>
+                        <span class="tool-badge">&#9654; Scale to Revenue</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="cta-content fade-in">
+        <h2>Viitorul Apartine<br>Companiilor <span style="background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">AI-First</span></h2>
+        <p>
+            Nu este o intrebare de "daca", ci de "cand". Companiile care implementeaza acest framework astazi vor opera de 10 ori mai eficient decat competitorii care inca mai adauga straturi de management. Incepe transformarea acum.
+        </p>
+        <div class="hero-actions">
+            <a href="#intro" class="btn btn-primary">Reciteste Framework-ul &#8593;</a>
+            <a href="#playbook" class="btn btn-ghost">Incepe Implementarea</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 AI-First Framework &mdash; Creat pentru lideri vizionari care construiesc companiile viitorului.</p>
+</footer>
+
+<script>
+    document.getElementById('mobileToggle').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    window.addEventListener('scroll', function() {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    var fadeEls = document.querySelectorAll('.fade-in');
+    var fadeObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    fadeEls.forEach(function(el) { fadeObserver.observe(el); });
+
+    var sections = document.querySelectorAll('section[id], header[id]');
+    var tocLinks = document.querySelectorAll('.toc a');
+    var tocObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                var id = entry.target.getAttribute('id');
+                tocLinks.forEach(function(link) {
+                    link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+                });
+            }
+        });
+    }, { threshold: 0.3 });
+    sections.forEach(function(s) { tocObserver.observe(s); });
+
+    document.querySelectorAll('#navLinks a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            document.getElementById('navLinks').classList.remove('open');
+        });
+    });
+</script>
+
+</body>
+</html>
