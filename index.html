@@ -1451,6 +1451,239 @@
 
 
 <!-- ══════════════════════════════════════════
+     [5.5] ATMOSFERA DON — note senzoriale
+══════════════════════════════════════════ -->
+<section id="atmosfera" aria-label="Atmosfera DON" style="
+  background: linear-gradient(160deg, #1C1008 0%, #2A2420 45%, #3d1f14 100%);
+  padding: 120px 40px;
+  border-top: 2px solid var(--gold);
+  position: relative;
+  overflow: hidden;
+">
+  <!-- Texture diagonală subtilă -->
+  <div aria-hidden="true" style="
+    position:absolute;inset:0;pointer-events:none;
+    background-image:repeating-linear-gradient(135deg,
+      rgba(201,162,39,0.03) 0px, rgba(201,162,39,0.03) 1px,
+      transparent 1px, transparent 18px);
+  "></div>
+
+  <!-- Cerc decorativ de fundal -->
+  <div aria-hidden="true" style="
+    position:absolute;top:-120px;right:-120px;
+    width:480px;height:480px;border-radius:50%;
+    background:radial-gradient(circle, rgba(201,162,39,0.06) 0%, transparent 70%);
+    pointer-events:none;
+  "></div>
+
+  <div style="max-width:1200px;margin:0 auto;position:relative;z-index:1;">
+
+    <!-- Header -->
+    <div class="section-header reveal" style="text-align:center;margin-bottom:80px;">
+      <span class="section-label" style="color:var(--gold)">Simte DON</span>
+      <h2 style="
+        font-family:var(--font-heading);
+        font-size:clamp(30px,4.5vw,52px);
+        color:#fff;
+        line-height:1.15;
+        margin-bottom:16px;
+      ">Fiecare simț are<br><em style="color:var(--gold)">nota lui.</em></h2>
+      <span class="gold-line gold-line--center" aria-hidden="true"></span>
+      <p style="
+        font-family:var(--font-body);font-size:15px;
+        color:rgba(255,255,255,0.45);line-height:1.8;
+        max-width:480px;margin:0 auto;margin-top:16px;
+      ">Un loc se recunoaște cu ochii închiși.<br>DON are un miros, o textură, un ritm al lui.</p>
+    </div>
+
+    <!-- Cele 4 note -->
+    <div style="
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:2px;
+    " class="reveal">
+
+      <!-- Noblețe -->
+      <div class="atm-card" style="
+        background:rgba(255,255,255,0.03);
+        border-top:2px solid var(--gold);
+        padding:52px 36px 48px;
+        text-align:center;
+        transition:background 0.4s ease;
+        cursor:default;
+      " onmouseenter="this.style.background='rgba(201,162,39,0.07)'"
+         onmouseleave="this.style.background='rgba(255,255,255,0.03)'"
+      >
+        <div style="margin-bottom:28px;">
+          <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polygon points="24,4 28,18 44,18 31,27 36,42 24,33 12,42 17,27 4,18 20,18"
+              fill="none" stroke="#C9A227" stroke-width="1.5" stroke-linejoin="round"/>
+            <polygon points="24,12 26,19 34,19 28,24 30,31 24,27 18,31 20,24 14,19 22,19"
+              fill="rgba(201,162,39,0.12)" stroke="none"/>
+          </svg>
+        </div>
+        <h3 style="
+          font-family:var(--font-heading);font-size:22px;
+          color:var(--gold);letter-spacing:3px;
+          margin-bottom:16px;font-weight:700;
+        ">NOBLEȚE</h3>
+        <div style="width:30px;height:1px;background:var(--gold);margin:0 auto 20px;opacity:0.5;"></div>
+        <p style="
+          font-family:var(--font-heading);font-style:italic;
+          font-size:14px;color:var(--cream);line-height:1.8;
+          margin-bottom:20px;
+        ">„Nu forfotă. Nu grabă. Gesturi precise, liniște câștigată."</p>
+        <p style="
+          font-family:var(--font-body);font-size:11px;
+          color:rgba(255,255,255,0.35);letter-spacing:2px;
+          text-transform:uppercase;line-height:1.7;
+        ">Lemn de cedru · Ambră<br>Mușchi de stejar</p>
+      </div>
+
+      <!-- Naturalețe -->
+      <div style="
+        background:rgba(255,255,255,0.03);
+        border-top:2px solid var(--gold);
+        padding:52px 36px 48px;
+        text-align:center;
+        transition:background 0.4s ease;
+        cursor:default;
+      " onmouseenter="this.style.background='rgba(201,162,39,0.07)'"
+         onmouseleave="this.style.background='rgba(255,255,255,0.03)'"
+      >
+        <div style="margin-bottom:28px;">
+          <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M24,42 Q24,42 24,28 Q24,14 10,8 Q16,8 22,14 Q24,6 36,4 Q30,14 28,22 Q32,16 40,14 Q34,22 28,28 Q26,36 24,42 Z"
+              fill="rgba(201,162,39,0.1)" stroke="#C9A227" stroke-width="1.5" stroke-linejoin="round"/>
+            <line x1="24" y1="28" x2="24" y2="44" stroke="#C9A227" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 style="
+          font-family:var(--font-heading);font-size:22px;
+          color:var(--gold);letter-spacing:3px;
+          margin-bottom:16px;font-weight:700;
+        ">NATURALEȚE</h3>
+        <div style="width:30px;height:1px;background:var(--gold);margin:0 auto 20px;opacity:0.5;"></div>
+        <p style="
+          font-family:var(--font-heading);font-style:italic;
+          font-size:14px;color:var(--cream);line-height:1.8;
+          margin-bottom:20px;
+        ">„Nimic forțat. Nimic performativ. Doar ceea ce este."</p>
+        <p style="
+          font-family:var(--font-body);font-size:11px;
+          color:rgba(255,255,255,0.35);letter-spacing:2px;
+          text-transform:uppercase;line-height:1.7;
+        ">Iarbă de dimineață · Vetiver<br>Santal alb</p>
+      </div>
+
+      <!-- Bucuria vieții -->
+      <div style="
+        background:rgba(255,255,255,0.03);
+        border-top:2px solid var(--gold);
+        padding:52px 36px 48px;
+        text-align:center;
+        transition:background 0.4s ease;
+        cursor:default;
+      " onmouseenter="this.style.background='rgba(201,162,39,0.07)'"
+         onmouseleave="this.style.background='rgba(255,255,255,0.03)'"
+      >
+        <div style="margin-bottom:28px;">
+          <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="24" cy="24" r="18" fill="none" stroke="#C9A227" stroke-width="1.5"/>
+            <path d="M16,28 Q20,34 24,34 Q28,34 32,28" fill="none" stroke="#C9A227" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="17" cy="20" r="2.5" fill="#C9A227" opacity="0.7"/>
+            <circle cx="31" cy="20" r="2.5" fill="#C9A227" opacity="0.7"/>
+            <!-- scântei de bucurie -->
+            <line x1="24" y1="4" x2="24" y2="7" stroke="#C9A227" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+            <line x1="36" y1="7" x2="34" y2="9" stroke="#C9A227" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+            <line x1="12" y1="7" x2="14" y2="9" stroke="#C9A227" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+            <line x1="40" y1="14" x2="37" y2="15" stroke="#C9A227" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+            <line x1="8" y1="14" x2="11" y2="15" stroke="#C9A227" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+        </div>
+        <h3 style="
+          font-family:var(--font-heading);font-size:22px;
+          color:var(--gold);letter-spacing:3px;
+          margin-bottom:16px;font-weight:700;
+        ">BUCURIE</h3>
+        <div style="width:30px;height:1px;background:var(--gold);margin:0 auto 20px;opacity:0.5;"></div>
+        <p style="
+          font-family:var(--font-heading);font-style:italic;
+          font-size:14px;color:var(--cream);line-height:1.8;
+          margin-bottom:20px;
+        ">„Râsul care vine de la sine. Cafeaua care se răcește pentru că vorbești."</p>
+        <p style="
+          font-family:var(--font-body);font-size:11px;
+          color:rgba(255,255,255,0.35);letter-spacing:2px;
+          text-transform:uppercase;line-height:1.7;
+        ">Bergamotă · Portocal amar<br>Cardamom proaspăt</p>
+      </div>
+
+      <!-- Piele premium -->
+      <div style="
+        background:rgba(255,255,255,0.03);
+        border-top:2px solid var(--gold);
+        padding:52px 36px 48px;
+        text-align:center;
+        transition:background 0.4s ease;
+        cursor:default;
+      " onmouseenter="this.style.background='rgba(201,162,39,0.07)'"
+         onmouseleave="this.style.background='rgba(255,255,255,0.03)'"
+      >
+        <div style="margin-bottom:28px;">
+          <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <!-- contur scaun de barber / piele -->
+            <path d="M10,38 L10,18 Q10,10 18,10 L30,10 Q38,10 38,18 L38,38"
+              fill="none" stroke="#C9A227" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M6,38 L42,38" stroke="#C9A227" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16,10 Q18,6 24,5 Q30,6 32,10"
+              fill="rgba(201,162,39,0.1)" stroke="#C9A227" stroke-width="1.5" stroke-linecap="round"/>
+            <!-- cusătură -->
+            <line x1="18" y1="22" x2="30" y2="22" stroke="#C9A227" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+            <line x1="18" y1="28" x2="30" y2="28" stroke="#C9A227" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+          </svg>
+        </div>
+        <h3 style="
+          font-family:var(--font-heading);font-size:22px;
+          color:var(--gold);letter-spacing:3px;
+          margin-bottom:16px;font-weight:700;
+        ">PIELE</h3>
+        <div style="width:30px;height:1px;background:var(--gold);margin:0 auto 20px;opacity:0.5;"></div>
+        <p style="
+          font-family:var(--font-heading);font-style:italic;
+          font-size:14px;color:var(--cream);line-height:1.8;
+          margin-bottom:20px;
+        ">„Scaunul care te primește. Pielea care poartă timpul bine."</p>
+        <p style="
+          font-family:var(--font-body);font-size:11px;
+          color:rgba(255,255,255,0.35);letter-spacing:2px;
+          text-transform:uppercase;line-height:1.7;
+        ">Piele tăbăcită · Tutun blând<br>Mosc cald · Balsam de Peru</p>
+      </div>
+
+    </div>
+
+    <!-- Citat final -->
+    <div class="reveal" style="
+      text-align:center;
+      margin-top:80px;
+      padding-top:56px;
+      border-top:1px solid rgba(201,162,39,0.15);
+    ">
+      <p style="
+        font-family:var(--font-heading);font-style:italic;
+        font-size:clamp(18px,2.5vw,26px);
+        color:rgba(255,255,255,0.7);
+        line-height:1.6;max-width:680px;margin:0 auto;
+      ">„DON nu are un parfum oficial.<br>
+      <span style="color:var(--gold)">DON miroase a om care știe cine e."</span></p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
      [6] TESTIMONIALE
 ══════════════════════════════════════════ -->
 <section id="testimoniale" aria-label="Testimoniale clienți">
