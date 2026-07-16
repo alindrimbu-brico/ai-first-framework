@@ -1,0 +1,10 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Armonia">
+  <rect width="120" height="120" rx="26" fill="#F4ECDD"/>
+  <circle cx="60" cy="60" r="46" fill="none" stroke="#A9772F" stroke-width="1.4"/>
+  <circle cx="60" cy="60" r="40" fill="none" stroke="#A9772F" stroke-width="0.7"/>
+  <path d="M60 30 C70 46,80 54,72 68 C80 66,80 80,60 88 C40 80,40 66,48 68 C40 54,50 46,60 30 Z"
+        fill="none" stroke="#2B2420" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M60 46 C66 56,68 62,63 70 C67 69,66 77,60 81 C54 77,53 69,57 70 C52 62,54 56,60 46 Z"
+        fill="#E8A02D" opacity="0.4" stroke="#A9772F" stroke-width="0.9" stroke-linejoin="round"/>
+  <circle cx="60" cy="62" r="2.6" fill="#A9772F"/>
+</svg>
