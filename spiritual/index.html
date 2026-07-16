@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Untdelemnul Bucuriei — uleiurile sfinte și căldura mănăstirilor</title>
+  <meta name="description" content="Un pachet spiritual: despre uleiurile sfinte care ne ung și ne bucură, despre înfierea noastră ca fii ai lui Dumnezeu și despre căldura mănăstirilor în care El ni se descoperă." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --night:    #120d08;
+      --ember:    #241811;
+      --ember-2:  #2f2015;
+      --cream:    #F3E7C8;
+      --cream-dim:#cdbf9c;
+      --gold:     #C9A227;
+      --gold-lt:  #E4C866;
+      --wine:     #7A2E2E;
+      --parch:    #F7EFDA;
+      --ink:      #2A2015;
+      --ink-mid:  #4a3a28;
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'EB Garamond', serif;
+      --font-sans: 'Lato', sans-serif;
+      --transition: 0.3s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--night);
+      color: var(--ink);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1,h2,h3,h4 { font-family: var(--font-display); font-weight: 500; line-height: 1.15; }
+    .wrap { max-width: 780px; margin: 0 auto; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; text-align: center; color: var(--cream);
+      padding: 120px 28px 100px;
+      background:
+        radial-gradient(680px 420px at 50% 22%, rgba(228,200,102,0.22), transparent 62%),
+        radial-gradient(1000px 700px at 50% 0%, rgba(122,46,46,0.18), transparent 70%),
+        linear-gradient(180deg, #1a120b 0%, var(--night) 100%);
+      overflow: hidden;
+    }
+    .hero::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .flame { margin: 0 auto 30px; width: 60px; height: 92px; position: relative; }
+    .flame svg { display: block; filter: drop-shadow(0 0 22px rgba(228,200,102,0.65)); }
+    .flame-glow { animation: flicker 3.2s ease-in-out infinite; transform-origin: 50% 100%; }
+    @keyframes flicker {
+      0%,100% { opacity: 1; transform: scaleY(1) scaleX(1); }
+      45%     { opacity: 0.86; transform: scaleY(1.06) scaleX(0.96); }
+      70%     { opacity: 0.95; transform: scaleY(0.97) scaleX(1.03); }
+    }
+    .hero-eyebrow {
+      font-family: var(--font-sans); font-size: 11px; letter-spacing: 6px;
+      text-transform: uppercase; color: var(--gold-lt); margin-bottom: 22px;
+    }
+    .hero h1 {
+      font-size: 68px; font-weight: 500; letter-spacing: 0.5px;
+      background: linear-gradient(180deg, #fbf1d2, var(--gold) 130%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .hero h1 em { font-style: italic; }
+    .creed {
+      font-family: var(--font-display); font-style: italic; font-size: 22px;
+      color: var(--cream-dim); margin-top: 22px; line-height: 1.6;
+    }
+    .creed b { color: var(--gold-lt); font-style: normal; font-weight: 500; }
+    .hero-cross { color: var(--gold); font-size: 18px; margin-top: 30px; opacity: 0.8; }
+
+    /* ── PARCHMENT BODY ── */
+    .scroll {
+      background:
+        radial-gradient(900px 300px at 50% 0, rgba(201,162,39,0.06), transparent 70%),
+        var(--parch);
+      padding: 84px 0 40px;
+    }
+    .section { padding: 0 32px; margin-bottom: 76px; }
+    .kicker {
+      font-family: var(--font-sans); font-size: 11px; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--wine); font-weight: 700;
+      text-align: center; margin-bottom: 14px;
+    }
+    .section h2 {
+      font-size: 40px; color: var(--ink); text-align: center; margin-bottom: 10px;
+    }
+    .ornament {
+      text-align: center; color: var(--gold); font-size: 20px; margin: 8px 0 30px;
+      letter-spacing: 8px;
+    }
+    .section p { font-size: 19.5px; color: var(--ink-mid); margin-bottom: 20px; }
+    .lead:first-letter {
+      float: left; font-family: var(--font-display); font-weight: 600;
+      font-size: 82px; line-height: 0.7; color: var(--wine);
+      margin: 12px 14px 0 0;
+    }
+    .section strong { color: var(--ink); font-weight: 600; }
+
+    .scripture {
+      position: relative; margin: 34px auto; max-width: 640px;
+      padding: 8px 8px 8px 34px; border-left: 3px solid var(--gold);
+    }
+    .scripture .verse {
+      font-family: var(--font-display); font-style: italic; font-size: 24px;
+      color: var(--wine); line-height: 1.5;
+    }
+    .scripture .ref {
+      display: block; font-family: var(--font-sans); font-size: 11px;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
+      margin-top: 12px; font-weight: 700;
+    }
+
+    .divider { text-align: center; margin: 60px 0; color: var(--gold); font-size: 15px; letter-spacing: 12px; opacity: 0.7; }
+
+    /* ── OILS ── */
+    .oils { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 34px; }
+    .oil {
+      background: linear-gradient(160deg, #fffdf6, #f0e6cd);
+      border: 1px solid rgba(201,162,39,0.4); border-radius: 14px;
+      padding: 28px 26px; box-shadow: 0 12px 34px rgba(42,32,21,0.07);
+      transition: var(--transition);
+    }
+    .oil:hover { transform: translateY(-4px); box-shadow: 0 20px 44px rgba(42,32,21,0.14); border-color: var(--gold); }
+    .oil .drop { color: var(--gold); font-size: 22px; }
+    .oil h3 { font-size: 24px; color: var(--wine); margin: 8px 0 8px; }
+    .oil p { font-size: 16.5px; margin-bottom: 0; color: var(--ink-mid); }
+
+    /* ── BLESSING ── */
+    .blessing {
+      background:
+        radial-gradient(600px 300px at 50% 0, rgba(228,200,102,0.16), transparent 65%),
+        linear-gradient(170deg, var(--ember-2), var(--night));
+      color: var(--cream); padding: 76px 34px 84px; text-align: center;
+    }
+    .blessing .kicker { color: var(--gold-lt); }
+    .blessing h2 { color: var(--cream); font-size: 40px; margin-bottom: 8px; }
+    .blessing .prayer {
+      font-family: var(--font-display); font-style: italic; font-size: 23px;
+      color: #ecdcb4; line-height: 1.75; max-width: 620px; margin: 26px auto 0;
+    }
+    .blessing .prayer span { color: var(--gold-lt); font-style: normal; }
+    .amin { margin-top: 34px; font-family: var(--font-sans); font-size: 12px; letter-spacing: 6px; text-transform: uppercase; color: var(--gold); }
+
+    .colophon {
+      background: var(--night); color: var(--cream-dim); text-align: center;
+      padding: 40px 28px 56px; font-size: 15px; font-style: italic;
+    }
+    .colophon .sig { color: var(--gold); font-family: var(--font-display); font-size: 19px; font-style: normal; display: block; margin-bottom: 10px; }
+
+    /* ── SOUND — candela sonoră ── */
+    .sound-toggle {
+      position: fixed; bottom: 26px; right: 26px; z-index: 120;
+      width: 60px; height: 60px; border-radius: 50%;
+      background: linear-gradient(160deg, #33231604, #120d08);
+      background: radial-gradient(circle at 50% 35%, rgba(228,200,102,0.22), transparent 60%), linear-gradient(160deg, #2f2015, #120d08);
+      border: 1.5px solid var(--gold); color: var(--gold);
+      display: grid; place-items: center; cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.45); transition: var(--transition);
+    }
+    .sound-toggle:hover { transform: translateY(-3px); }
+    .sound-toggle svg { width: 26px; height: 26px; }
+    .sound-toggle .wave { display: none; }
+    .sound-toggle.playing .flame-off { display: none; }
+    .sound-toggle.playing .wave { display: block; }
+    .sound-toggle.playing { animation: halo 3.6s ease-in-out infinite; }
+    @keyframes halo {
+      0%,100% { box-shadow: 0 0 0 0 rgba(201,162,39,0.4), 0 10px 30px rgba(0,0,0,0.45); }
+      50%     { box-shadow: 0 0 0 12px rgba(201,162,39,0), 0 10px 30px rgba(0,0,0,0.45); }
+    }
+    .sound-hint {
+      position: fixed; bottom: 34px; right: 98px; z-index: 120;
+      background: rgba(18,13,8,0.92); color: var(--cream);
+      border: 1px solid rgba(201,162,39,0.4); border-radius: 30px;
+      padding: 9px 18px; font-family: var(--font-sans); font-size: 12px;
+      letter-spacing: 1px; white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      opacity: 0; transform: translateX(10px); pointer-events: none;
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .sound-hint.show { opacity: 1; transform: translateX(0); }
+    .sound-hint b { color: var(--gold-lt); font-weight: 700; }
+
+    @media (max-width: 760px) {
+      .sound-hint { display: none; }
+      .hero { padding: 90px 22px 74px; }
+      .hero h1 { font-size: 46px; }
+      .creed { font-size: 18px; }
+      .section h2, .blessing h2 { font-size: 30px; }
+      .oils { grid-template-columns: 1fr; }
+      .section p { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="flame" aria-hidden="true">
+      <svg viewBox="0 0 60 92" xmlns="http://www.w3.org/2000/svg">
+        <g class="flame-glow">
+          <path d="M30 4 C40 24 52 34 44 54 C40 66 30 68 30 68 C30 68 20 66 16 54 C8 34 20 24 30 4 Z"
+                fill="url(#g1)"/>
+          <path d="M30 24 C36 36 40 42 36 54 C33 62 30 62 30 62 C30 62 27 62 24 54 C20 42 24 36 30 24 Z"
+                fill="#fff4d0"/>
+        </g>
+        <rect x="27" y="66" width="6" height="22" rx="2" fill="#e9dcb6"/>
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#E4C866"/>
+            <stop offset="1" stop-color="#B5741F"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    <div class="hero-eyebrow">Pachet spiritual · Untdelemnul bucuriei</div>
+    <h1>Uleiurile <em>Sfinte</em></h1>
+    <p class="creed">
+      <b>Dumnezeu</b> este Dumnezeu.<br>
+      Noi suntem <b>fiii</b> Lui.<br>
+      Iisus este <b>Fratele</b> nostru.
+    </p>
+    <div class="hero-cross">✚</div>
+  </header>
+
+  <main class="scroll">
+
+    <section class="section wrap">
+      <div class="kicker">Așezarea inimii</div>
+      <h2>Suntem fiii lui Dumnezeu</h2>
+      <div class="ornament">✦ ❖ ✦</div>
+      <p class="lead">Înainte de a vorbi despre untdelemn, se cuvine să știm cine suntem când ne apropiem de el. Nu robi înfricoșați, ci copii chemați pe nume. Dumnezeu rămâne Dumnezeu — negrăit, nemărginit, izvorul a toate — și tocmai El, în nespusa Lui iubire, S-a plecat și ne-a făcut ai Lui.</p>
+
+      <div class="scripture">
+        <p class="verse">„Vedeți ce fel de iubire ne-a dăruit nouă Tatăl, ca să ne numim fii ai lui Dumnezeu; și suntem."</p>
+        <span class="ref">I Ioan 3, 1</span>
+      </div>
+
+      <p>Iar dacă suntem fii, atunci în inima noastră strigă însuși Duhul, cu glasul unui copil care nu se mai teme: <em>Avva, Părinte</em>. Aceasta este marea răsturnare a Evangheliei — depărtarea prefăcută în apropiere, sluga primită ca fiu.</p>
+
+      <div class="scripture">
+        <p class="verse">„Și pentru că sunteți fii, a trimis Dumnezeu pe Duhul Fiului Său în inimile voastre, care strigă: Avva, Părinte!"</p>
+        <span class="ref">Galateni 4, 6</span>
+      </div>
+
+      <p>Și dacă avem un Tată, avem și un Frate. Hristos nu Se rușinează să ne numească frați — El, Cel dintâi născut între mulți frați, ne-a luat de mână și ne-a urcat spre Tatăl Lui, care a devenit Tatăl nostru.</p>
+
+      <div class="scripture">
+        <p class="verse">„Mă sui la Tatăl Meu și Tatăl vostru, la Dumnezeul Meu și Dumnezeul vostru."</p>
+        <span class="ref">Ioan 20, 17</span>
+      </div>
+    </section>
+
+    <div class="divider">✚ ✚ ✚</div>
+
+    <section class="section wrap">
+      <div class="kicker">Untdelemnul care unge și bucură</div>
+      <h2>Uleiurile sfinte</h2>
+      <div class="ornament">✦ ❖ ✦</div>
+      <p class="lead">Din cele mai vechi timpuri, untdelemnul a fost semnul milei lui Dumnezeu turnate peste om. El nu strigă — se prelinge blând; nu arde — vindecă; nu împovărează — luminează. Ungerea nu ne schimbă din afară, ci ne pecetluiește dinlăuntru: „ești al Meu, și bucuria Mea este peste tine".</p>
+
+      <div class="scripture">
+        <p class="verse">„Te-a uns pe Tine, Dumnezeule, Dumnezeul Tău, cu untdelemnul bucuriei, mai mult decât pe părtașii Tăi."</p>
+        <span class="ref">Psalmul 44, 9</span>
+      </div>
+
+      <p>De aceea vorbim despre <strong>untdelemnul bucuriei</strong>: pentru că, acolo unde intră mila lui Dumnezeu, intră și bucuria — nu o veselie trecătoare, ci pacea adâncă a celui știut și iubit. Iar la masa Domnului, El însuși ne unge:</p>
+
+      <div class="scripture">
+        <p class="verse">„Gătit-ai masă înaintea mea… uns-ai cu untdelemn capul meu, și paharul Tău este adăpându-mă ca un puternic."</p>
+        <span class="ref">Psalmul 22, 6</span>
+      </div>
+
+      <div class="oils">
+        <div class="oil">
+          <div class="drop">◉</div>
+          <h3>Candela</h3>
+          <p>Untdelemnul care arde tăcut înaintea icoanei, ziua și noaptea. O rugăciune care nu se oprește nici când noi adormim — lumină mică ce mărturisește o iubire mare.</p>
+        </div>
+        <div class="oil">
+          <div class="drop">◉</div>
+          <h3>Ungerea vindecării</h3>
+          <p>Untdelemnul sfințit al rugăciunii pentru cei bolnavi și osteniți — pentru tămăduirea trupului și a sufletului, pentru ridicarea celui doborât și liniștirea celui neliniștit.</p>
+        </div>
+        <div class="oil">
+          <div class="drop">◉</div>
+          <h3>Mireasma sfântă</h3>
+          <p>Pecetea Duhului, buna-mireasmă a lui Hristos revărsată peste cel primit în familia lui Dumnezeu. Semnul văzut al unui dar nevăzut.</p>
+        </div>
+        <div class="oil">
+          <div class="drop">◉</div>
+          <h3>Untdelemnul bucuriei</h3>
+          <p>Ungerea care înveselește fața și înmoaie inima împietrită. Nu alungă durerea prefăcându-se că nu există — o umple de sens și o luminează din lăuntru.</p>
+        </div>
+      </div>
+
+      <p style="text-align:center; margin-top:34px; font-style:italic;">Se cuvine spus cu smerenie: aceste uleiuri își află puterea nu în ele însele, ci în binecuvântarea Bisericii și în mâna preotului. Ele sunt vasul; harul este al lui Dumnezeu.</p>
+    </section>
+
+    <div class="divider">✚ ✚ ✚</div>
+
+    <section class="section wrap">
+      <div class="kicker">Locul descoperirii</div>
+      <h2>Căldura din mănăstiri</h2>
+      <div class="ornament">✦ ❖ ✦</div>
+      <p class="lead">Este o căldură pe care o simți încă din pridvor. Nu vine doar de la lumânări și de la sobă, ci de la ceva mai adânc: de la rugăciunea care s-a adunat acolo, strat peste strat, ani și veacuri. În liniștea aceea, Dumnezeu nu Se ascunde — Se descoperă. Nu în tunet, ci în adiere; nu în vorbe multe, ci în pacea care coboară fără să o ceri.</p>
+
+      <p>Mănăstirea ne învață un lucru pe care lumea l-a uitat: că <strong>a sta împreună, în tăcere caldă, este deja rugăciune</strong>. Că o candelă, un ceai sau o cafea, o vorbă bună și o inimă deschisă pot fi ușa prin care intră bucuria dumnezeiască. Acolo, omul obosit se odihnește, cel rătăcit se regăsește, iar cel singur descoperă că are un Tată și frați.</p>
+
+      <div class="scripture">
+        <p class="verse">„Veniți la Mine toți cei osteniți și împovărați, și Eu vă voi odihni pe voi."</p>
+        <span class="ref">Matei 11, 28</span>
+      </div>
+
+      <p>Aceasta este căldura pe care vrem s-o purtăm mai departe și în locurile noastre de întâlnire: un colț de mănăstire în inima lumii, unde untdelemnul candelei, mireasma cafelei și cuvântul cald se împletesc, iar oamenii pleacă mai bogați decât au venit.</p>
+    </section>
+
+    <section class="blessing">
+      <div class="kicker">Binecuvântare pentru casă și familie</div>
+      <h2>Toată bucuria dumnezeiască</h2>
+      <p class="prayer">
+        Doamne, Dumnezeul milei și al mângâierii,<br>
+        revarsă peste <span>Alin</span> și peste toată casa lui<br>
+        untdelemnul bucuriei Tale.<br><br>
+        Unge-le durerile cu tămăduire,<br>
+        temerile cu pace, și oboseala cu odihnă.<br>
+        Însănătoșește trupul, întărește sufletul,<br>
+        și ține-i, la ducere și la întoarcere, sub acoperământul Tău.<br><br>
+        Fă din casa lor un pridvor de mănăstire,<br>
+        cald, luminat de candelă, plin de frați —<br>
+        și umple-o de toată bucuria dumnezeiască.
+      </p>
+      <div class="amin">Amin ✚</div>
+    </section>
+
+    <div class="colophon">
+      <span class="sig">Scris cu smerenie și cu multă dragoste</span>
+      Aceste rânduri sunt doar o lumânare aprinsă cu mâna omului.<br>
+      Adevărata ungere, adevărata iertare și adevărata bucurie<br>
+      vin de la Dumnezeu, prin Biserica Lui și prin duhovnicul viu.<br>
+      Mergi la ei cu inima deschisă — și vei fi primit.
+    </div>
+
+  </main>
+
+  <button class="sound-toggle" id="soundToggle" aria-label="Pornește cântul de rugăciune" title="Cânt de rugăciune">
+    <svg class="flame-off" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M12 2c3 4.2 6.4 6.6 4 11-1.3 2.6-4 3-4 3s-2.7-.4-4-3C5.6 8.6 9 6.2 12 2Z" fill="currentColor"/>
+    </svg>
+    <svg class="wave" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M4 12h2M8 8v8M12 5v14M16 8v8M20 12h0"/>
+    </svg>
+  </button>
+  <div class="sound-hint" id="soundHint">Atinge candela pentru <b>cânt</b> ✦</div>
+
+  <script>
+  /* ══════════════════════════════════════════════════════════════
+     CÂNT DE RUGĂCIUNE — ison bizantin + note meditative la mouse
+     Sintetizat integral în browser (Web Audio API). Fără fișiere.
+  ══════════════════════════════════════════════════════════════ */
+  (function(){
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    const btn  = document.getElementById('soundToggle');
+    const hint = document.getElementById('soundHint');
+
+    let ctx, master, reverb, droneGain, started = false, playing = false;
+    let lastIdx = -1, lastTime = 0;
+
+    // Scară modală frigiană pe RE (D), două octave — sacră și caldă,
+    // consonantă cu isonul (RE + cvinta LA).
+    const base = 146.83; // D3
+    const semis = [0,1,3,5,7,8,10,12,13,15,17,19,20,22];
+    const scale = semis.map(s => base * Math.pow(2, s/12));
+
+    function makeReverb(){
+      const len = Math.floor(ctx.sampleRate * 3.4);
+      const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+      for (let ch = 0; ch < 2; ch++){
+        const d = buf.getChannelData(ch);
+        for (let i = 0; i < len; i++){
+          d[i] = (Math.random()*2 - 1) * Math.pow(1 - i/len, 2.6);
+        }
+      }
+      const c = ctx.createConvolver(); c.buffer = buf; return c;
+    }
+
+    function init(){
+      ctx = new AC();
+      master = ctx.createGain(); master.gain.value = 0;
+      const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2400;
+      master.connect(lp); lp.connect(ctx.destination);
+
+      // reverb ca "send" din master — spațiu de catedrală
+      reverb = makeReverb();
+      const revGain = ctx.createGain(); revGain.gain.value = 0.55;
+      master.connect(reverb); reverb.connect(revGain); revGain.connect(ctx.destination);
+
+      // ISON — bourdonul sustinut al cântării bizantine
+      droneGain = ctx.createGain(); droneGain.gain.value = 0;
+      const voices = [ [base/2, 0.5], [base, 0.34], [base*1.5, 0.16] ]; // RE2, RE3, LA3
+      voices.forEach(([f, g]) => {
+        const o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value = f;
+        const vg = ctx.createGain(); vg.gain.value = g;
+        o.connect(vg); vg.connect(droneGain); o.start();
+      });
+      droneGain.connect(master);
+      // respirația isonului
+      const lfo = ctx.createOscillator(); lfo.frequency.value = 0.07;
+      const lfoG = ctx.createGain(); lfoG.gain.value = 0.05;
+      lfo.connect(lfoG); lfoG.connect(droneGain.gain); lfo.start();
+
+      started = true;
+    }
+
+    function note(freq, pan, vel){
+      const now = ctx.currentTime;
+      const o  = ctx.createOscillator(); o.type  = 'triangle'; o.frequency.value = freq;
+      const o2 = ctx.createOscillator(); o2.type = 'sine';     o2.frequency.value = freq * 2.003;
+      const g  = ctx.createGain(); g.gain.value = 0;
+      const g2 = ctx.createGain(); g2.gain.value = 0;
+      const flt = ctx.createBiquadFilter(); flt.type = 'lowpass'; flt.frequency.value = 1900;
+      const p = ctx.createStereoPanner(); p.pan.value = Math.max(-1, Math.min(1, pan || 0));
+      o.connect(g); o2.connect(g2); g.connect(flt); g2.connect(flt); flt.connect(p); p.connect(master);
+
+      const v = vel || 0.5;
+      g.gain.setValueAtTime(0, now);
+      g.gain.linearRampToValueAtTime(0.18 * v, now + 0.05);
+      g.gain.exponentialRampToValueAtTime(0.0008, now + 2.6);
+      g2.gain.setValueAtTime(0, now);
+      g2.gain.linearRampToValueAtTime(0.05 * v, now + 0.06);
+      g2.gain.exponentialRampToValueAtTime(0.0006, now + 1.9);
+      o.start(now); o2.start(now);
+      o.stop(now + 2.8); o2.stop(now + 2.1);
+    }
+
+    function start(){
+      if (!started) init();
+      if (ctx.state === 'suspended') ctx.resume();
+      playing = true;
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.linearRampToValueAtTime(0.55, ctx.currentTime + 1.4);
+      droneGain.gain.linearRampToValueAtTime(0.16, ctx.currentTime + 2.6);
+      btn.classList.add('playing');
+      btn.setAttribute('aria-label', 'Oprește cântul de rugăciune');
+    }
+    function stop(){
+      playing = false;
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.9);
+      droneGain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.9);
+      btn.classList.remove('playing');
+      btn.setAttribute('aria-label', 'Pornește cântul de rugăciune');
+    }
+
+    btn.addEventListener('click', () => {
+      hint.classList.remove('show');
+      playing ? stop() : start();
+    });
+
+    // Notele urmează mișcarea mouse-ului peste texte
+    const TEXT_SEL = 'p, h1, h2, h3, .verse, .creed, .prayer, li, .kicker, .oil';
+    window.addEventListener('mousemove', (e) => {
+      if (!playing) return;
+      const el = e.target.closest && e.target.closest(TEXT_SEL);
+      if (!el) return;
+      const now = performance.now();
+      const yFrac = 1 - (e.clientY / window.innerHeight);   // sus = mai înalt
+      let idx = Math.round(yFrac * (scale.length - 1));
+      idx = Math.max(0, Math.min(scale.length - 1, idx));
+      // meditativ: notă nouă la schimbarea liniei, altfel pauză mai lungă
+      const gap = now - lastTime;
+      if (idx === lastIdx ? gap < 900 : gap < 150) return;
+      lastIdx = idx; lastTime = now;
+      const pan = (e.clientX / window.innerWidth) * 2 - 1;
+      note(scale[idx], pan * 0.6, 0.55);
+    });
+
+    // invitația apare blând, apoi se retrage
+    setTimeout(() => hint.classList.add('show'), 1400);
+    setTimeout(() => { if (!playing) hint.classList.remove('show'); }, 8000);
+  })();
+  </script>
+</body>
+</html>
