@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Mastery — Curs progresiv | de la fundamente la hub-uri inteligente</title>
+  <meta name="description" content="Curs AI progresiv, nivel tehnic: LLM, prompting, API, RAG, agenți, MCP și automatizări — aplicate la construirea unui hub fizic replicabil (frizerie, cafenea, bucătărie)." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lato:wght@300;400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cognac:    #6B3D2E;
+      --cream:     #F5EDD8;
+      --gold:      #C9A227;
+      --charcoal:  #2A2420;
+      --moss:      #4A5240;
+      --cream-mid: #EDE0C4;
+      --text-dark: #1C1008;
+      --text-mid:  #4A3828;
+      --footer-bg: #1A1008;
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Lato', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --transition: 0.25s ease;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-body);
+      color: var(--text-dark);
+      background: var(--cream);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4 { font-family: var(--font-heading); line-height: 1.2; }
+    a { color: var(--cognac); text-decoration: none; }
+    ul, ol { list-style: none; }
+
+    /* ── LAYOUT ── */
+    .app { display: grid; grid-template-columns: 340px 1fr; min-height: 100vh; }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      background: var(--footer-bg);
+      color: var(--cream);
+      position: sticky; top: 0;
+      height: 100vh; overflow-y: auto;
+      padding: 28px 22px 60px;
+      border-right: 3px solid var(--gold);
+    }
+    .brand { margin-bottom: 24px; }
+    .brand-eyebrow {
+      font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); display: block; margin-bottom: 6px;
+    }
+    .brand h1 { font-size: 26px; color: var(--cream); line-height: 1.1; }
+    .brand p { font-size: 12.5px; color: #b8a98a; margin-top: 8px; }
+
+    .progress-wrap { margin: 22px 0 26px; }
+    .progress-label {
+      display: flex; justify-content: space-between;
+      font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+      color: #b8a98a; margin-bottom: 8px;
+    }
+    .progress-bar { height: 6px; background: #3a2c1e; border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0; background: var(--gold); transition: width 0.4s ease; }
+
+    .module-nav > li { margin-bottom: 6px; }
+    .module-head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 10px; cursor: pointer; border-radius: 5px;
+      transition: var(--transition);
+    }
+    .module-head:hover { background: rgba(201,162,39,0.12); }
+    .module-num {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+      color: var(--footer-bg); background: var(--gold);
+      width: 26px; height: 26px; flex-shrink: 0;
+      display: grid; place-items: center; border-radius: 5px;
+    }
+    .module-title { font-size: 13.5px; font-weight: 700; color: var(--cream); flex: 1; }
+    .module-caret { font-size: 10px; color: #b8a98a; transition: transform var(--transition); }
+    .module.open .module-caret { transform: rotate(90deg); }
+    .lesson-list { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .module.open .lesson-list { max-height: 800px; }
+    .lesson-item {
+      display: flex; align-items: center; gap: 9px;
+      padding: 7px 10px 7px 20px; margin-left: 12px;
+      font-size: 12.5px; color: #cdbf9f; cursor: pointer;
+      border-left: 1px solid #3a2c1e; transition: var(--transition);
+    }
+    .lesson-item:hover { color: var(--cream); border-left-color: var(--gold); }
+    .lesson-item.active { color: var(--gold); border-left-color: var(--gold); font-weight: 700; }
+    .lesson-check {
+      width: 15px; height: 15px; border: 1.5px solid #5a4a34;
+      border-radius: 50%; flex-shrink: 0; display: grid; place-items: center;
+      font-size: 9px; color: var(--footer-bg);
+    }
+    .lesson-item.done .lesson-check { background: var(--gold); border-color: var(--gold); }
+    .lesson-item.done .lesson-check::after { content: "✓"; }
+
+    /* ── MAIN ── */
+    .main { padding: 0; }
+    .lesson {
+      max-width: 820px; margin: 0 auto; padding: 56px 48px 100px;
+    }
+    .crumb {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--cognac); margin-bottom: 14px; font-weight: 700;
+    }
+    .lesson h2 { font-size: 40px; color: var(--charcoal); margin-bottom: 6px; }
+    .lesson-meta { display: flex; gap: 16px; align-items: center; margin: 14px 0 30px; flex-wrap: wrap; }
+    .tag {
+      font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+      background: var(--cream-mid); color: var(--text-mid);
+      padding: 4px 12px; border-radius: 20px; font-weight: 700;
+    }
+    .tag--level { background: var(--moss); color: var(--cream); }
+    .gold-line { width: 60px; height: 3px; background: var(--gold); margin: 0 0 30px; }
+
+    .lesson-body h3 {
+      font-size: 24px; color: var(--cognac); margin: 38px 0 12px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--cream-mid);
+    }
+    .lesson-body h4 { font-size: 18px; color: var(--charcoal); margin: 26px 0 8px; }
+    .lesson-body p { margin-bottom: 16px; color: var(--text-mid); font-size: 16.5px; }
+    .lesson-body strong { color: var(--text-dark); }
+    .lesson-body ul, .lesson-body ol { margin: 0 0 18px 4px; }
+    .lesson-body li {
+      position: relative; padding-left: 26px; margin-bottom: 10px;
+      color: var(--text-mid); font-size: 16px;
+    }
+    .lesson-body ul li::before {
+      content: "▸"; position: absolute; left: 4px; color: var(--gold); font-weight: 700;
+    }
+    .lesson-body ol { counter-reset: item; }
+    .lesson-body ol li { counter-increment: item; }
+    .lesson-body ol li::before {
+      content: counter(item); position: absolute; left: 0; top: 0;
+      font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+      color: var(--gold); background: var(--charcoal);
+      width: 20px; height: 20px; border-radius: 4px; display: grid; place-items: center;
+    }
+
+    .callout {
+      background: var(--cream-mid); border-left: 4px solid var(--gold);
+      padding: 18px 22px; margin: 24px 0; border-radius: 0 8px 8px 0;
+    }
+    .callout--hub { border-left-color: var(--cognac); background: #efe6d0; }
+    .callout-label {
+      font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); font-weight: 700; display: block; margin-bottom: 6px;
+    }
+    .callout--hub .callout-label { color: var(--cognac); }
+    .callout p:last-child { margin-bottom: 0; }
+
+    pre {
+      background: var(--charcoal); color: #e8dcc0; border-radius: 8px;
+      padding: 20px 22px; overflow-x: auto; margin: 20px 0;
+      font-family: var(--font-mono); font-size: 13.5px; line-height: 1.6;
+      border: 1px solid #000;
+    }
+    pre .c { color: #8a7a5a; }   /* comment */
+    pre .k { color: var(--gold); }  /* keyword */
+    pre .s { color: #c9d6a0; }   /* string */
+    code:not(pre code) {
+      font-family: var(--font-mono); font-size: 0.88em;
+      background: var(--cream-mid); color: var(--cognac);
+      padding: 2px 6px; border-radius: 4px;
+    }
+
+    .keyterm { border-bottom: 2px dotted var(--gold); font-weight: 700; color: var(--text-dark); }
+
+    table.def { width: 100%; border-collapse: collapse; margin: 22px 0; font-size: 15px; }
+    table.def th, table.def td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--cream-mid); vertical-align: top; }
+    table.def th { background: var(--charcoal); color: var(--cream); font-family: var(--font-body); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+    table.def td:first-child { font-weight: 700; color: var(--cognac); white-space: nowrap; }
+
+    .exercise {
+      border: 2px dashed var(--cognac); border-radius: 10px;
+      padding: 22px 24px; margin: 30px 0; background: #faf4e4;
+    }
+    .exercise-label {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--cognac); font-weight: 700; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .lesson-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px; margin-top: 50px; padding-top: 28px; border-top: 2px solid var(--cream-mid);
+      flex-wrap: wrap;
+    }
+    .btn {
+      font-family: var(--font-body); font-weight: 700; font-size: 12px;
+      letter-spacing: 1.5px; text-transform: uppercase; padding: 13px 26px;
+      cursor: pointer; border: none; border-radius: 4px; transition: var(--transition);
+    }
+    .btn--done { background: var(--gold); color: var(--footer-bg); }
+    .btn--done:hover { background: var(--charcoal); color: var(--gold); }
+    .btn--done.is-done { background: var(--moss); color: var(--cream); }
+    .btn--nav { background: transparent; color: var(--cognac); border: 1.5px solid var(--cognac); }
+    .btn--nav:hover { background: var(--cognac); color: var(--cream); }
+    .btn--nav:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .placeholder { text-align: center; padding: 40px 20px; }
+    .placeholder .big { font-size: 60px; margin-bottom: 10px; }
+    .placeholder p { color: var(--text-mid); font-style: italic; }
+
+    /* ── PINNED NAV (Manifest) ── */
+    .pinned-nav { margin-bottom: 18px; }
+    .pinned-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 13px 14px; cursor: pointer; border-radius: 8px;
+      background: linear-gradient(135deg, rgba(201,162,39,0.16), rgba(201,162,39,0.04));
+      border: 1px solid rgba(201,162,39,0.35);
+      transition: var(--transition);
+    }
+    .pinned-item:hover { border-color: var(--gold); background: linear-gradient(135deg, rgba(201,162,39,0.28), rgba(201,162,39,0.08)); }
+    .pinned-item.active { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold), 0 6px 20px rgba(201,162,39,0.15); }
+    .pinned-star { color: var(--gold); font-size: 16px; }
+    .pinned-item .pt { font-family: var(--font-heading); font-style: italic; font-size: 15px; color: var(--cream); flex: 1; }
+    .pinned-item .ps { display: block; font-family: var(--font-body); font-style: normal; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
+
+    /* ── MANIFEST (glamorous) ── */
+    .manifest {
+      max-width: 900px; margin: 0 auto;
+      padding: 0 0 110px;
+    }
+    .manifest-hero {
+      position: relative;
+      padding: 92px 56px 70px;
+      background:
+        radial-gradient(1200px 500px at 50% -10%, rgba(201,162,39,0.18), transparent 60%),
+        linear-gradient(160deg, #241812 0%, var(--footer-bg) 55%, #120a05 100%);
+      color: var(--cream);
+      overflow: hidden;
+      text-align: center;
+    }
+    .manifest-hero::before {
+      content: ""; position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(45deg, rgba(201,162,39,0.05) 0 2px, transparent 2px 22px);
+      opacity: 0.4; pointer-events: none;
+    }
+    .manifest-hero::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .m-eyebrow {
+      position: relative; font-size: 11px; letter-spacing: 6px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 22px;
+    }
+    .m-monogram {
+      position: relative; width: 78px; height: 78px; margin: 0 auto 26px;
+      border: 2px solid var(--gold); border-radius: 50%;
+      display: grid; place-items: center;
+      font-family: var(--font-heading); font-size: 34px; font-style: italic; color: var(--gold);
+      box-shadow: 0 0 0 6px rgba(201,162,39,0.08), inset 0 0 24px rgba(201,162,39,0.12);
+    }
+    .manifest-hero h1 {
+      position: relative; font-size: 62px; line-height: 1.05; margin-bottom: 8px;
+      background: linear-gradient(180deg, #fbf3d8 0%, var(--gold) 120%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      text-shadow: 0 2px 40px rgba(201,162,39,0.15);
+    }
+    .manifest-hero h1 em { font-style: italic; }
+    .m-tagline {
+      position: relative; font-family: var(--font-heading); font-style: italic;
+      font-size: 21px; color: #d8c9a4; margin-top: 14px; font-weight: 400;
+    }
+    .m-flourish {
+      position: relative; display: flex; align-items: center; justify-content: center;
+      gap: 14px; margin: 30px 0 0; color: var(--gold); font-size: 13px;
+    }
+    .m-flourish::before, .m-flourish::after {
+      content: ""; height: 1px; width: 70px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+    .m-flourish::after { background: linear-gradient(90deg, var(--gold), transparent); }
+
+    .manifest-body { padding: 56px 56px 0; }
+    .m-section { margin-bottom: 54px; }
+    .m-kicker {
+      font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); font-weight: 700; margin-bottom: 10px;
+    }
+    .m-section > h2 {
+      font-size: 34px; color: var(--charcoal); margin-bottom: 20px;
+    }
+    .m-section > h2 .num {
+      font-family: var(--font-mono); font-size: 15px; color: var(--gold);
+      vertical-align: super; margin-right: 8px;
+    }
+    .m-lead { font-size: 19px; color: var(--text-mid); line-height: 1.75; }
+    .m-lead:first-letter {
+      float: left; font-family: var(--font-heading); font-size: 74px; line-height: 0.72;
+      color: var(--cognac); margin: 10px 14px 0 0; font-weight: 700;
+    }
+    .m-section p { font-size: 17px; color: var(--text-mid); margin-bottom: 16px; line-height: 1.75; }
+    .m-quote {
+      font-family: var(--font-heading); font-style: italic; font-size: 24px;
+      color: var(--cognac); text-align: center; line-height: 1.5;
+      padding: 30px 40px; margin: 34px 0; position: relative;
+    }
+    .m-quote::before, .m-quote::after {
+      content: "”"; font-size: 60px; color: var(--gold); opacity: 0.5;
+      position: absolute; font-family: var(--font-heading);
+    }
+    .m-quote::before { content: "“"; top: -6px; left: 6px; }
+    .m-quote::after { bottom: -34px; right: 10px; }
+
+    .obj-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 26px; }
+    .obj-card {
+      position: relative; padding: 34px 30px 30px;
+      background: linear-gradient(160deg, #fffaf0, var(--cream-mid));
+      border: 1px solid rgba(201,162,39,0.4); border-radius: 14px;
+      box-shadow: 0 12px 40px rgba(107,61,46,0.08);
+      transition: var(--transition);
+    }
+    .obj-card:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(107,61,46,0.16); border-color: var(--gold); }
+    .obj-card .obj-badge {
+      position: absolute; top: -18px; left: 28px;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--charcoal); color: var(--gold);
+      display: grid; place-items: center; font-family: var(--font-heading);
+      font-style: italic; font-size: 20px; border: 2px solid var(--gold);
+    }
+    .obj-card h3 { font-size: 22px; color: var(--cognac); margin: 14px 0 10px; border: none; padding: 0; }
+    .obj-card p { font-size: 15.5px; color: var(--text-mid); margin-bottom: 0; }
+    .obj-card .obj-tag {
+      display: inline-block; margin-top: 16px; font-size: 10px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gold); font-weight: 700;
+      border-top: 1px solid rgba(201,162,39,0.4); padding-top: 12px;
+    }
+
+    .m-cta {
+      text-align: center; margin-top: 60px; padding: 44px 30px;
+      background: linear-gradient(160deg, #241812, var(--footer-bg));
+      border-radius: 16px; color: var(--cream);
+      border: 1px solid rgba(201,162,39,0.3);
+    }
+    .m-cta h3 { font-size: 26px; color: var(--cream); border: none; padding: 0; margin-bottom: 10px; }
+    .m-cta h3 em { color: var(--gold); font-style: italic; }
+    .m-cta p { color: #c3b48f; margin-bottom: 22px; }
+    .btn--enter {
+      background: linear-gradient(135deg, var(--gold), #b8901f);
+      color: var(--footer-bg); font-size: 13px; letter-spacing: 2px;
+      padding: 15px 40px; box-shadow: 0 10px 30px rgba(201,162,39,0.25);
+    }
+    .btn--enter:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(201,162,39,0.4); }
+
+    /* ── CAFEA — istoria & originile ── */
+    .m-subhead {
+      font-family: var(--font-heading); font-size: 22px; color: var(--charcoal);
+      margin: 36px 0 8px; display: flex; align-items: center; gap: 12px;
+    }
+    .m-subhead::before { content: "❖"; color: var(--gold); font-size: 16px; }
+    .coffee-belt {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 24px;
+    }
+    .origin-card {
+      position: relative; padding: 24px 20px 22px; border-radius: 14px;
+      background: linear-gradient(160deg, #2c1d13, #170e07);
+      color: var(--cream); border: 1px solid rgba(201,162,39,0.28);
+      transition: var(--transition);
+    }
+    .origin-card:hover { transform: translateY(-5px); border-color: var(--gold); box-shadow: 0 18px 40px rgba(23,14,7,0.35); }
+    .origin-card .bean { color: var(--gold); font-size: 15px; letter-spacing: 3px; }
+    .origin-card .region { display: block; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #a8996f; margin-top: 12px; }
+    .origin-card h4 { color: var(--gold); font-size: 19px; margin: 3px 0 0; border: none; padding: 0; }
+    .origin-card .notes {
+      font-family: var(--font-heading); font-style: italic; font-size: 15px;
+      color: #e8dab6; margin-top: 12px; line-height: 1.55;
+      padding-top: 12px; border-top: 1px solid rgba(201,162,39,0.2);
+    }
+    .assets-line {
+      display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
+      margin: 40px 0 8px;
+    }
+    .asset-chip {
+      border: 1px solid var(--gold); color: var(--cognac);
+      border-radius: 30px; padding: 11px 24px; background: #fffaf0;
+      font-family: var(--font-heading); font-style: italic; font-size: 17px;
+      box-shadow: 0 6px 18px rgba(201,162,39,0.1); transition: var(--transition);
+    }
+    .asset-chip:hover { transform: translateY(-3px); background: var(--charcoal); color: var(--cream); }
+    .asset-chip:hover b { color: var(--gold); }
+    .asset-chip b { color: var(--gold); font-weight: 700; }
+    .assets-note { text-align: center; font-style: italic; color: var(--text-mid); margin-top: 18px; font-size: 16px; }
+
+    @media (max-width: 900px) {
+      .coffee-belt { grid-template-columns: 1fr; }
+      .manifest-hero { padding: 74px 24px 54px; }
+      .manifest-hero h1 { font-size: 42px; }
+      .manifest-body { padding: 40px 22px 0; }
+      .obj-grid { grid-template-columns: 1fr; gap: 34px; }
+    }
+
+    /* ── MOBILE ── */
+    .menu-toggle { display: none; }
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed; z-index: 50; width: 300px; left: -320px;
+        transition: left 0.3s ease; box-shadow: 4px 0 30px rgba(0,0,0,0.4);
+      }
+      .sidebar.open { left: 0; }
+      .menu-toggle {
+        display: grid; place-items: center; position: fixed; z-index: 60;
+        top: 16px; left: 16px; width: 48px; height: 48px; border-radius: 8px;
+        background: var(--footer-bg); color: var(--gold); border: 2px solid var(--gold);
+        font-size: 20px; cursor: pointer;
+      }
+      .lesson { padding: 80px 22px 80px; }
+      .lesson h2 { font-size: 30px; }
+    }
+    .backdrop { display: none; }
+    .backdrop.show { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 40; }
+  </style>
+</head>
+<body>
+  <button class="menu-toggle" id="menuToggle">☰</button>
+  <div class="backdrop" id="backdrop"></div>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <span class="brand-eyebrow">Program de învățare</span>
+        <h1>AI Mastery</h1>
+        <p>De la fundamentele modelelor la hub-uri fizice inteligente. Nivel tehnic. Aprofundăm zi de zi.</p>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Progresul tău</span><span id="progressPct">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+      <div class="pinned-nav">
+        <div class="pinned-item" id="manifestBtn">
+          <span class="pinned-star">✦</span>
+          <span class="pt"><span class="ps">Manifest</span>Cine suntem</span>
+        </div>
+      </div>
+      <nav><ul class="module-nav" id="moduleNav"></ul></nav>
+    </aside>
+
+    <main class="main">
+      <article class="lesson" id="lessonView"></article>
+    </main>
+  </div>
+
+  <script>
+  /* ══════════════════════════════════════════════════════════════
+     CURRICULUM — structura de date. Fiecare lecție = un obiect.
+     Extindem prin adăugarea de conținut în `body`. Lecțiile fără
+     body încă apar ca "în curând — aprofundăm împreună".
+  ══════════════════════════════════════════════════════════════ */
+  const CURRICULUM = [
+    {
+      title: "Fundamente & mentalitate AI-First",
+      lessons: [
+        {
+          title: "Ce este de fapt un LLM",
+          duration: "20 min", level: "Fundamente",
+          body: `
+            <p>Înainte să folosești AI „la capacitate maximă", trebuie să înțelegi ce ai în mână. Un <span class="keyterm">Large Language Model</span> (LLM) — Claude, GPT, Gemini — nu este o bază de date de răspunsuri și nu „caută pe internet" în mod implicit. Este un <strong>motor de predicție statistică</strong> antrenat pe cantități uriașe de text, care a învățat un singur lucru extrem de bine: <em>dat un șir de text, care e cea mai probabilă continuare?</em></p>
+            <p>Toată magia — codul pe care ți-l scrie, planul de business, poezia — este acest mecanism aplicat la scară gigantică.</p>
+
+            <h3>Cei 4 termeni pe care îi vei folosi zilnic</h3>
+            <table class="def">
+              <tr><th>Termen</th><th>Ce înseamnă</th></tr>
+              <tr><td>Token</td><td>Unitatea de text pe care o „vede" modelul — aprox. ¾ dintr-un cuvânt în engleză, mai mult în română. „Bucătărie" ≈ 3 tokeni. Plătești și gândești în tokeni, nu în cuvinte.</td></tr>
+              <tr><td>Context window</td><td>Câți tokeni poate „ține minte" modelul într-o conversație (input + output). Modelele moderne: 200k–1M+ tokeni. Când depășești, informația veche „cade".</td></tr>
+              <tr><td>Weights (parametri)</td><td>Miliardele de numere reglate în timpul antrenării. Ele codifică „cunoașterea". Sunt fixe după antrenare (inference).</td></tr>
+              <tr><td>Inference</td><td>Momentul în care modelul generează răspuns pentru tine. Aici plătești și aici se întâmplă tot ce vezi.</td></tr>
+            </table>
+
+            <h3>Training vs. Inference — distincția cheie</h3>
+            <p>Antrenarea (<span class="keyterm">training</span>) costă milioane de dolari și se face o dată de către laborator (Anthropic, OpenAI). Rezultă un model cu weights fixe. Tu nu antrenezi modelul când îl folosești — tu faci <span class="keyterm">inference</span>: îi dai un input, primești un output. Modelul <strong>nu învață din conversația cu tine</strong> și nu-și amintește de ieri, dacă nu-i construiești tu explicit o memorie (vezi Modulul RAG).</p>
+
+            <h4>De ce contează asta pentru tine, practic</h4>
+            <ul>
+              <li>Modelul are un <strong>knowledge cutoff</strong> — o dată după care nu mai știe nimic. Pentru date proaspete (prețuri, stoc, program) trebuie să i le dai tu.</li>
+              <li>Modelul <strong>halucinează</strong> — inventează cu convingere. Nu e un bug, e natura predicției statistice. Soluția nu e „să-l cerți", ci arhitectura (îi dai sursele).</li>
+              <li>Fiecare apel e independent. „Memoria" unui asistent pentru cafeneaua ta e ceva ce <em>construiești</em>, nu ceva ce vine gratis.</li>
+            </ul>
+
+            <div class="callout callout--hub">
+              <span class="callout-label">Firul roșu — Hub-ul</span>
+              <p>Gândește-te la LLM ca la un <strong>angajat genial dar amnezic</strong>: știe enorm despre lume, dar habar n-are că azi ai rămas fără lapte de ovăz sau că frizerul tău e liber marți. Tot cursul ăsta e despre cum transformi acest geniu amnezic într-un angajat care <em>chiar cunoaște</em> hub-ul tău — și îl poți clona pentru orice locație.</p>
+            </div>
+
+            <div class="exercise">
+              <div class="exercise-label">⚡ Exercițiu (10 min)</div>
+              <p>Intră pe <a href="https://claude.ai" target="_blank">claude.ai</a> sau în consola API. Pune aceeași întrebare de business în două feluri: (1) vag — „cum cresc vânzările la cafenea?", (2) cu context — rol, locație, buget, clientelă. Observă diferența de calitate. Ai descoperit deja de ce contează promptul.</p>
+            </div>
+          `
+        },
+        {
+          title: "Cum „gândește" modelul: probabilități, temperature, sampling",
+          duration: "18 min", level: "Fundamente",
+          body: `
+            <p>La fiecare pas, modelul nu alege un cuvânt — produce o <strong>distribuție de probabilități</strong> peste toți tokenii posibili. Apoi un mecanism de <span class="keyterm">sampling</span> alege unul. Cum alege = de ce uneori e creativ, alteori robotic.</p>
+
+            <h3>Parametrii pe care îi controlezi</h3>
+            <table class="def">
+              <tr><th>Parametru</th><th>Ce face</th></tr>
+              <tr><td>temperature</td><td>0 = mereu cel mai probabil token (determinist, previzibil). ~1 = creativ, variat, mai riscant. Pentru date/cod: 0–0.3. Pentru copywriting/branding: 0.7–1.</td></tr>
+              <tr><td>top_p</td><td>„Nucleus sampling" — alege doar din tokenii care adună primele p% din probabilitate. Alternativă la temperature.</td></tr>
+              <tr><td>max_tokens</td><td>Lungimea maximă a răspunsului. Te protejează de costuri și răspunsuri interminabile.</td></tr>
+              <tr><td>stop sequences</td><td>Șiruri la care generarea se oprește. Util când vrei output structurat.</td></tr>
+            </table>
+
+            <p>Aici e prima ta pârghie de „capacitate maximă": <strong>același model dă rezultate radical diferite</strong> în funcție de acești parametri. Cei mai mulți oameni nu-i ating niciodată — tu îi vei regla intenționat.</p>
+
+            <div class="callout">
+              <span class="callout-label">Intuiție practică</span>
+              <p>Vrei ca asistentul cafenelei să răspundă la „ce program aveți?" — <code>temperature: 0</code>, răspuns stabil, mereu corect. Vrei 20 de idei de nume pentru un nou sortiment de cafea — <code>temperature: 0.9</code>, lasă-l să zburde.</p>
+            </div>
+
+            <div class="exercise">
+              <div class="exercise-label">⚡ Exercițiu</div>
+              <p>Dacă ai acces API, rulează același prompt de 3 ori cu temperature 0 și de 3 ori cu 1.0. Notează cât variază. E cea mai bună demonstrație intuitivă a sampling-ului.</p>
+            </div>
+          `
+        },
+        {
+          title: "Mentalitatea AI-First: unde AI schimbă jocul (și unde nu)",
+          duration: "15 min", level: "Strategie",
+          body: `
+            <p>„AI-First" nu înseamnă „AI peste tot". Înseamnă că, atunci când proiectezi un proces sau un business, întrebi <strong>întâi</strong>: „poate un model să facă asta, sau să-l amplifice de 10x?" — înainte să presupui că e nevoie de om, formular sau cod clasic.</p>
+
+            <h3>Unde AI e imbatabil azi</h3>
+            <ul>
+              <li><strong>Transformarea limbajului</strong>: rezumat, traducere, rescriere, extragere de informație din text dezordonat.</li>
+              <li><strong>Generare de conținut</strong>: text de marketing, descrieri, variante, primul draft a orice.</li>
+              <li><strong>Interfață conversațională</strong>: înlocuiește formulare și meniuri cu „spune-mi ce vrei".</li>
+              <li><strong>Clasificare & rutare</strong>: „acest mesaj e o rezervare, o reclamație sau spam?"</li>
+              <li><strong>Cod & automatizări</strong>: lipiciul dintre sisteme care înainte cerea programator.</li>
+            </ul>
+            <h3>Unde AI încă te trădează</h3>
+            <ul>
+              <li>Calcule exacte / adevăr factual garantat (fără surse externe).</li>
+              <li>Decizii cu miză mare fără supraveghere umană.</li>
+              <li>Consistență perfectă la scară (variază între rulări).</li>
+              <li>Tot ce necesită date live pe care nu i le-ai dat.</li>
+            </ul>
+
+            <div class="callout callout--hub">
+              <span class="callout-label">Firul roșu — Hub-ul</span>
+              <p>Template-ul tău de hub va avea un „creier AI" în spate. Regula de proiectare: <strong>AI-ul se ocupă de limbaj și decizii mici și repetitive; omul se ocupă de căldură, mână și încredere.</strong> Frizerul rămâne frizer. AI-ul îi ia programările, îi scrie postările, îi ține minte clienții — ca el să facă ce face bine.</p>
+            </div>
+          `
+        }
+      ]
+    },
+    {
+      title: "Ecosistemul de modele în 2026",
+      lessons: [
+        {
+          title: "Familiile de modele și cum alegi",
+          duration: "22 min", level: "Peisaj",
+          body: `
+            <p>Piața s-a maturizat. Nu mai există „cel mai bun model" — există <strong>cel mai bun model pentru sarcina și bugetul tău</strong>. A ști să alegi e o competență în sine.</p>
+
+            <h3>Marile familii</h3>
+            <table class="def">
+              <tr><th>Familie</th><th>Puncte forte / profil</th></tr>
+              <tr><td>Claude (Anthropic)</td><td>Raționament, scriere de calitate, cod, siguranță, urmărirea instrucțiilor lungi. Familia curentă: Claude 5, Opus 4.8, Haiku 4.5.</td></tr>
+              <tr><td>GPT (OpenAI)</td><td>Ecosistem vast, multimodal matur, integrări largi.</td></tr>
+              <tr><td>Gemini (Google)</td><td>Context foarte mare, integrare Google, multimodal nativ.</td></tr>
+              <tr><td>Open-source (Llama, Mistral, Qwen)</td><td>Le rulezi pe infrastructura ta — control, confidențialitate, cost la scară. Necesită mai multă muncă tehnică.</td></tr>
+            </table>
+
+            <h3>Nivelurile de model (tiering)</h3>
+            <p>În fiecare familie ai un compromis între capacitate, viteză și cost. La Anthropic, de exemplu:</p>
+            <ul>
+              <li><strong>Opus</strong> — cel mai capabil, pentru raționament greu, arhitectură, cod complex.</li>
+              <li><strong>Sonnet</strong> — echilibru între inteligență și cost, „calul de povară" pentru producție.</li>
+              <li><strong>Haiku</strong> — rapid și ieftin, pentru clasificări, rutare, volum mare.</li>
+            </ul>
+            <p>Strategia matură: <strong>folosești modelul mic pentru sarcini simple și pe cel mare doar unde chiar contează.</strong> Așa optimizezi costul unei aplicații reale.</p>
+
+            <div class="callout callout--hub">
+              <span class="callout-label">Firul roșu — Hub-ul</span>
+              <p>Asistentul hub-ului: un model <strong>Haiku</strong> clasifică mesajele care intră (rezervare / întrebare / reclamație) — ieftin, la volum. Doar când clientul cere ceva complex („organizați un eveniment privat pentru 20 de persoane?") escaladezi la <strong>Sonnet/Opus</strong>. Arhitectură pe niveluri = margine de profit.</p>
+            </div>
+
+            <div class="exercise">
+              <div class="exercise-label">⚡ Exercițiu</div>
+              <p>Fă un tabel cu 5 sarcini din DON Barbershop (ex: „răspunde la mesaj Instagram", „scrie descriere serviciu", „sumarizează recenzii"). Pentru fiecare, alege nivelul de model (mic/mediu/mare) și justifică. Ăsta e „capacity planning" AI.</p>
+            </div>
+          `
+        },
+        {
+          title: "Multimodal: text, imagine, audio, video",
+          duration: "16 min", level: "Peisaj",
+          body: `
+            <p>Modelele moderne nu mai sunt doar text. <span class="keyterm">Multimodal</span> înseamnă că același model (sau familie) poate <strong>vedea</strong> imagini, <strong>auzi</strong> audio și uneori <strong>genera</strong> imagini/voce/video.</p>
+            <h3>Ce poți face deja azi</h3>
+            <ul>
+              <li><strong>Vision</strong>: îi dai o poză cu un meniu scris de mână și îl transformă în text structurat; analizezi o poză de tuns și extragi stilul.</li>
+              <li><strong>Generare imagine</strong>: postere, mockup-uri de branding, imagini de produs — fără fotograf.</li>
+              <li><strong>Audio/voce</strong>: transcriere (speech-to-text), și voci sintetice naturale (text-to-speech) pentru asistenți vocali.</li>
+              <li><strong>Video</strong>: generare de clipuri scurte pentru social — domeniul care evoluează cel mai rapid acum.</li>
+            </ul>
+            <div class="callout callout--hub">
+              <span class="callout-label">Firul roșu — Hub-ul</span>
+              <p>Site-ul tău DON are deja un „audio engine". Următorul pas natural: un <strong>asistent vocal</strong> la intrarea în hub (kiosk) care întâmpină, ia programări și răspunde — text-to-speech + speech-to-text peste creierul AI. Îl aprofundăm în Modulul Multimodal.</p>
+            </div>
+          `
+        }
+      ]
+    },
+    {
+      title: "Prompt Engineering avansat",
+      lessons: [
+        {
+          title: "Anatomia unui prompt profesionist",
+          duration: "25 min", level: "Tehnic",
+          body: `
+            <p>Diferența dintre un amator și cineva care folosește AI „la capacitate maximă" se vede în prompt. Un prompt profesionist nu e o întrebare — e o <strong>specificație</strong>. Are structură.</p>
+
+            <h3>Cele 6 componente</h3>
+            <ol>
+              <li><strong>Rol / persona</strong> — cine e modelul. „Ești un consultant de operațiuni pentru cafenele independente."</li>
+              <li><strong>Context / date</strong> — tot ce trebuie să știe: locație, clientelă, constrângeri, date concrete.</li>
+              <li><strong>Sarcina</strong> — exact ce vrei, la imperativ, fără ambiguitate.</li>
+              <li><strong>Format de output</strong> — listă? tabel? JSON? câte cuvinte? Spune explicit.</li>
+              <li><strong>Exemple (few-shot)</strong> — 1–3 exemple de input→output ideal. Cel mai puternic instrument.</li>
+              <li><strong>Constrângeri</strong> — ce să NU facă, ton, limbă, lungime.</li>
+            </ol>
+
+            <h3>System prompt vs. user prompt</h3>
+            <p>În API separi <span class="keyterm">system prompt</span> (identitatea și regulile permanente ale asistentului) de <span class="keyterm">user prompt</span> (cererea concretă). System-ul e „constituția", user-ul e „conversația".</p>
+            <pre><span class="c"># Structură reală, pseudo-cod</span>
+system = <span class="s">"""Ești asistentul DON Barbershop din Mera, Vrancea.
+Program: L–V 9–19, S 9–15. Vorbești calm, scurt, ca între bărbați.
+Nu inventezi disponibilitate — dacă nu ești sigur, spui că verifici."""</span>
+
+user = <span class="s">"Salut, aveți loc mâine după 5?"</span></pre>
+
+            <h3>Delimitatori</h3>
+            <p>Când amesteci instrucțiuni cu date, separă-le clar (cu XML tags, <code>###</code>, ghilimele triple). Modelul înțelege mult mai bine „asta e instrucțiune, asta e datele de procesat".</p>
+            <pre>Rezumă recenziile din &lt;recenzii&gt;...&lt;/recenzii&gt; în 3 puncte.
+
+&lt;recenzii&gt;
+{text lipit aici}
+&lt;/recenzii&gt;</pre>
+
+            <div class="exercise">
+              <div class="exercise-label">⚡ Exercițiu de bază</div>
+              <p>Ia un prompt pe care l-ai folosit recent și rescrie-l cu toate cele 6 componente. Compară output-urile. Salvează versiunea bună — începi să-ți construiești o „bibliotecă de prompturi", primul tău activ AI.</p>
+            </div>
+          `
+        },
+        {
+          title: "Few-shot, Chain-of-Thought și output structurat",
+          duration: "22 min", level: "Tehnic",
+          body: `
+            <h3>Few-shot prompting</h3>
+            <p>Arăți modelului exemple în loc să-i explici. Vrei ca toate răspunsurile la recenzii să sune ca tine? Dă-i 3 recenzii cu răspunsurile tale ideale, apoi a 4-a fără răspuns. Va imita tiparul. E cel mai rapid mod de a „clona" un stil.</p>
+
+            <h3>Chain-of-Thought (CoT)</h3>
+            <p>Pentru probleme cu raționament, cere-i modelului <strong>să gândească pas cu pas înainte de a răspunde</strong>. Simpla adăugare „gândește pas cu pas" crește dramatic acuratețea la sarcini de logică, pentru că îi dai „spațiu de calcul" în tokeni.</p>
+            <pre>Un client vrea 3 servicii, ai 2 frizeri, fiecare serviciu 30 min,
+programul se închide în 90 min. Se poate? Gândește pas cu pas,
+apoi dă verdictul pe ultima linie.</pre>
+
+            <h3>Output structurat (JSON)</h3>
+            <p>Când AI-ul alimentează alt sistem (o bază de date, un calendar), nu vrei proză — vrei date. Îi ceri un JSON cu o schemă fixă. Așa devine AI-ul o <strong>piesă într-o mașinărie</strong>, nu doar un chat.</p>
+            <pre>Extrage din mesaj o rezervare. Răspunde DOAR cu JSON valid:
+{
+  <span class="s">"nume"</span>: string,
+  <span class="s">"serviciu"</span>: <span class="s">"tuns"</span> | <span class="s">"barba"</span> | <span class="s">"tuns+barba"</span>,
+  <span class="s">"data"</span>: string (ISO),
+  <span class="s">"incredere"</span>: number (0-1)
+}</pre>
+            <p>Acesta e podul către Modulul API și automatizări: din momentul în care AI-ul scoate JSON de încredere, îl poți conecta la orice.</p>
+
+            <div class="callout">
+              <span class="callout-label">Tehnica „încrederii"</span>
+              <p>Cere-i mereu un câmp <code>incredere</code> sau <code>lipsesc_date</code>. Așa știi când AI-ul ghicește. Sub un prag, escaladezi la om. Asta transformă un sistem fragil într-unul robust.</p>
+            </div>
+          `
+        },
+        { title: "Tehnici avansate: self-consistency, prompt chaining, meta-prompting", duration: "20 min", level: "Tehnic", body: "" }
+      ]
+    },
+    {
+      title: "API & prima ta automatizare",
+      lessons: [
+        {
+          title: "Cum funcționează un API de LLM",
+          duration: "24 min", level: "Cod",
+          body: `
+            <p>Aici treci de la „utilizator de chat" la „constructor". Un <span class="keyterm">API</span> (Application Programming Interface) e felul în care codul tău vorbește cu modelul, programatic, la scară — fără să deschidă browser.</p>
+            <h3>Fluxul, în esență</h3>
+            <ol>
+              <li>Îți iei o <strong>cheie API</strong> din consola furnizorului (ex: console.anthropic.com).</li>
+              <li>Codul tău trimite o cerere HTTP cu: modelul, mesajele, parametrii.</li>
+              <li>Serverul rulează inference și îți întoarce răspunsul (text + câți tokeni ai consumat).</li>
+              <li>Plătești per token — input și output separat.</li>
+            </ol>
+            <pre><span class="c"># Python — apel de bază către Claude</span>
+<span class="k">from</span> anthropic <span class="k">import</span> Anthropic
+client = Anthropic()  <span class="c"># citește cheia din env ANTHROPIC_API_KEY</span>
+
+msg = client.messages.create(
+    model=<span class="s">"claude-sonnet-5"</span>,
+    max_tokens=<span class="s">300</span>,
+    system=<span class="s">"Ești asistentul DON Barbershop. Răspunzi scurt, cald."</span>,
+    messages=[
+        {<span class="s">"role"</span>: <span class="s">"user"</span>, <span class="s">"content"</span>: <span class="s">"Aveți loc sâmbătă dimineață?"</span>}
+    ]
+)
+<span class="k">print</span>(msg.content[<span class="s">0</span>].text)</pre>
+
+            <h3>Concepte pe care le vei întâlni</h3>
+            <table class="def">
+              <tr><th>Concept</th><th>Ce e</th></tr>
+              <tr><td>messages</td><td>Lista conversației: alternanță de roluri user / assistant. Tu construiești „memoria" trimițând istoricul de fiecare dată.</td></tr>
+              <tr><td>streaming</td><td>Primești răspunsul token cu token (efectul „scrie live"). Mai bun UX pentru chat.</td></tr>
+              <tr><td>rate limits</td><td>Câte cereri/tokeni pe minut ai voie. Trebuie gestionate în producție.</td></tr>
+              <tr><td>prompt caching</td><td>Reutilizezi părți fixe ale promptului (ex: system-ul lung) fără să replătești integral. Optimizare majoră de cost.</td></tr>
+            </table>
+
+            <div class="callout callout--hub">
+              <span class="callout-label">Firul roșu — Hub-ul</span>
+              <p>Momentul ăsta e nașterea „creierului" replicabil. System prompt-ul devine <strong>fișierul de configurare al locației</strong>: schimbi numele, programul, serviciile — și același cod servește o mănăstire, un șantier sau o cafenea. Un cod, N locații. Asta e template-ul tău.</p>
+            </div>
+
+            <div class="exercise">
+              <div class="exercise-label">⚡ Proiect mic</div>
+              <p>Fă primul tău apel API funcțional (Python sau Node). Obiectiv: un script care primește un mesaj de client și răspunde în vocea DON. Când merge, ai trecut pragul de la „folosesc AI" la „construiesc cu AI".</p>
+            </div>
+          `
+        },
+        { title: "Tool use / function calling — AI care acționează", duration: "26 min", level: "Cod", body: "" },
+        { title: "Prima automatizare cap-coadă: mesaj → JSON → calendar", duration: "30 min", level: "Proiect", body: "" }
+      ]
+    },
+    {
+      title: "RAG — să dai AI-ului memoria afacerii tale",
+      lessons: [
+        {
+          title: "Embeddings și căutarea semantică",
+          duration: "24 min", level: "Cod", body: `
+            <p><span class="keyterm">RAG</span> (Retrieval-Augmented Generation) rezolvă problema din prima lecție: geniul amnezic. Îi dai modelului, la momentul întrebării, exact bucățile de informație relevante din <em>datele tale</em>. Cheia e cum găsești „bucățile relevante" — prin <span class="keyterm">embeddings</span>.</p>
+            <p>Un embedding transformă orice text într-un vector de numere care codifică <strong>sensul</strong>. Texte cu înțeles apropiat au vectori apropiați. Așa poți căuta „după sens", nu după cuvinte exacte: „vreau ceva fără cofeină după-amiaza" găsește secțiunea despre ceaiuri, chiar dacă nu conține cuvântul „decaf".</p>
+            <div class="callout callout--hub">
+              <span class="callout-label">Firul roșu — Hub-ul</span>
+              <p>Tot ce știe hub-ul tău — meniu, servicii, prețuri, întrebări frecvente, „povestea locului" — devine o bază de cunoștințe vectorizată. Asistentul răspunde din <em>ea</em>, nu din imaginație. Pentru o locație nouă, schimbi documentele: aceeași mașinărie, altă „memorie".</p>
+            </div>
+            <p class="placeholder"><em>Lecție completă (chunking, vector DB, pipeline) — o scriem în detaliu când ajungem aici.</em></p>
+          ` },
+        { title: "Vector databases și chunking", duration: "22 min", level: "Cod", body: "" },
+        { title: "Construiește un asistent care cunoaște hub-ul tău", duration: "35 min", level: "Proiect", body: "" }
+      ]
+    },
+    {
+      title: "Agenți AI",
+      lessons: [
+        { title: "Ce e un agent: loop, tools, planning, memory", duration: "26 min", level: "Arhitectură", body: `
+            <p>Un <span class="keyterm">agent</span> nu doar răspunde — <strong>acționează în buclă</strong>: gândește → alege o unealtă → execută → observă rezultatul → repetă, până termină sarcina. Diferența față de un chat simplu e autonomia și accesul la unelte (căutare, cod, API-uri, baze de date).</p>
+            <h3>Cele 4 ingrediente</h3>
+            <ul>
+              <li><strong>Loop</strong> — ciclul de raționament-acțiune.</li>
+              <li><strong>Tools</strong> — ce poate face în lume (trimite mesaj, scrie în calendar, caută).</li>
+              <li><strong>Planning</strong> — descompunerea unei sarcini mari în pași.</li>
+              <li><strong>Memory</strong> — ce reține între pași și între sesiuni.</li>
+            </ul>
+            <div class="callout callout--hub">
+              <span class="callout-label">Firul roșu — Hub-ul</span>
+              <p>„Managerul AI" al hub-ului: un agent care dimineața citește rezervările, verifică stocul, îți scrie un rezumat, pregătește postarea zilei și-ți semnalează ce lipsește. Un angajat digital care nu doarme. Îl construim pas cu pas.</p>
+            </div>
+            <p class="placeholder"><em>Aprofundăm cu o implementare reală în lecțiile următoare.</em></p>
+          ` },
+        { title: "MCP — Model Context Protocol: cum conectezi AI la orice", duration: "24 min", level: "Arhitectură", body: "" },
+        { title: "Sisteme multi-agent și orchestrare", duration: "22 min", level: "Arhitectură", body: "" }
+      ]
+    },
+    {
+      title: "Multimodal aplicat — branding, voce, video",
+      lessons: [
+        { title: "Generare de imagine pentru branding și marketing local", duration: "20 min", level: "Aplicat", body: "" },
+        { title: "Asistent vocal pentru kiosk (STT + TTS)", duration: "26 min", level: "Aplicat", body: "" },
+        { title: "Video generativ pentru social media", duration: "18 min", level: "Aplicat", body: "" }
+      ]
+    },
+    {
+      title: "Automatizări no-code / low-code + AI",
+      lessons: [
+        { title: "n8n, Make, Zapier: lipiciul dintre AI și business", duration: "24 min", level: "Automatizare", body: "" },
+        { title: "Fluxuri reale: rezervări, recenzii, social, follow-up", duration: "28 min", level: "Automatizare", body: "" }
+      ]
+    },
+    {
+      title: "Etică, securitate, cost & GDPR",
+      lessons: [
+        { title: "Date personale, GDPR și confidențialitate", duration: "20 min", level: "Guvernanță", body: "" },
+        { title: "Costuri: cum să nu te sperie factura", duration: "18 min", level: "Guvernanță", body: "" },
+        { title: "Riscuri: prompt injection, halucinații, siguranță", duration: "20 min", level: "Guvernanță", body: "" }
+      ]
+    },
+    {
+      title: "Template-ul: hub-ul AI-powered replicabil",
+      lessons: [
+        { title: "Arhitectura hub-ului: creier AI + module fizice", duration: "30 min", level: "Capstone", body: `
+            <p>Aici legăm totul. Template-ul tău e un <strong>sistem cu două straturi</strong>: stratul fizic (spațiul: frizerie, cafenea, bucătărie, loc de întâlnire) și stratul digital (creierul AI care îl face inteligent și replicabil).</p>
+            <h3>Principiul de personalizare pe locație</h3>
+            <p>Ce rămâne fix = mașinăria (cod, agenți, fluxuri). Ce se schimbă = un <strong>fișier de configurare al locației</strong>: identitate, ton, servicii, meniu, program, „povestea locului". O mănăstire și un șantier folosesc <em>același motor</em>, cu suflete diferite.</p>
+            <table class="def">
+              <tr><th>Locație</th><th>Aceleași module, altă față</th></tr>
+              <tr><td>Mănăstire</td><td>Cafenea liniștită + prăvălie; asistent cald, ton contemplativ; conținut despre istorie și meșteșug.</td></tr>
+              <tr><td>Șantier</td><td>Bucătărie rapidă + cafea tare + frizerie de weekend; asistent scurt, practic; program pe ture.</td></tr>
+              <tr><td>Sat (DON, Mera)</td><td>Frizerie + cafea + loc de vorbă bărbătească; ton calm, comunitate, „vino, stai, vom vorbi".</td></tr>
+            </table>
+            <div class="callout callout--hub">
+              <span class="callout-label">Capstone</span>
+              <p>Obiectivul final al cursului: să poți lua o locație nouă și, într-o săptămână, s-o pui online cu creierul AI configurat — programări, asistent, marketing, „manager digital". Asta e afacerea replicabilă.</p>
+            </div>
+          ` },
+        { title: "Personalizare pe locație: mănăstire vs. șantier vs. sat", duration: "24 min", level: "Capstone", body: "" },
+        { title: "Roadmap de lansare și model de business", duration: "26 min", level: "Capstone", body: "" }
+      ]
+    }
+  ];
+
+  /* ══════════════════════════════════════════════════════════════
+     APP LOGIC
+  ══════════════════════════════════════════════════════════════ */
+  const STORAGE_KEY = 'ai-mastery-progress-v1';
+  let state = { current: [0,0], done: {} };
+
+  function load() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (saved) state = { ...state, ...saved };
+    } catch(e) {}
+  }
+  function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  const key = (m,l) => `${m}-${l}`;
+  function totalLessons() { return CURRICULUM.reduce((n,mod)=>n+mod.lessons.length,0); }
+  function doneCount() { return Object.values(state.done).filter(Boolean).length; }
+
+  function buildNav() {
+    const nav = document.getElementById('moduleNav');
+    nav.innerHTML = '';
+    CURRICULUM.forEach((mod, mi) => {
+      const li = document.createElement('li');
+      li.className = 'module' + (mi === state.current[0] ? ' open' : '');
+      const doneInMod = mod.lessons.filter((_,li2)=>state.done[key(mi,li2)]).length;
+      li.innerHTML = `
+        <div class="module-head" data-mod="${mi}">
+          <span class="module-num">${String(mi).padStart(2,'0')}</span>
+          <span class="module-title">${mod.title}</span>
+          <span class="module-caret">▶</span>
+        </div>
+        <ul class="lesson-list">
+          ${mod.lessons.map((les,li2)=>`
+            <li class="lesson-item ${state.done[key(mi, li2)]?'done':''} ${(mi===state.current[0]&&li2===state.current[1])?'active':''}" data-mod="${mi}" data-les="${li2}">
+              <span class="lesson-check"></span>
+              <span>${les.title}</span>
+            </li>`).join('')}
+        </ul>`;
+      nav.appendChild(li);
+    });
+    nav.querySelectorAll('.module-head').forEach(h=>{
+      h.addEventListener('click',()=>h.parentElement.classList.toggle('open'));
+    });
+    nav.querySelectorAll('.lesson-item').forEach(it=>{
+      it.addEventListener('click',()=>{
+        openLesson(+it.dataset.mod, +it.dataset.les);
+        if (window.innerWidth <= 900) toggleSidebar(false);
+      });
+    });
+  }
+
+  function updateProgress() {
+    const pct = Math.round(doneCount()/totalLessons()*100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+  function openLesson(mi, li) {
+    state.current = [mi, li];
+    state.view = 'lesson';
+    save();
+    document.getElementById('manifestBtn').classList.remove('active');
+    const mod = CURRICULUM[mi];
+    const les = mod.lessons[li];
+    const view = document.getElementById('lessonView');
+    view.classList.remove('is-manifest');
+    const isDone = !!state.done[key(mi,li)];
+    const bodyHtml = les.body && les.body.trim()
+      ? les.body
+      : `<div class="placeholder"><div class="big">⛏️</div>
+           <h3 style="border:none">În curând — aprofundăm împreună</h3>
+           <p>Scheletul e aici. Când ajungem la această lecție, o scriem în detaliu, cu cod și exerciții — la ritmul tău, „pe zi ce trece".</p></div>`;
+
+    view.innerHTML = `
+      <div class="crumb">Modul ${String(mi).padStart(2,'0')} · ${mod.title}</div>
+      <h2>${les.title}</h2>
+      <div class="lesson-meta">
+        <span class="tag tag--level">${les.level||'Lecție'}</span>
+        <span class="tag">⏱ ${les.duration||'—'}</span>
+        <span class="tag">Lecția ${li+1}/${mod.lessons.length}</span>
+      </div>
+      <div class="gold-line"></div>
+      <div class="lesson-body">${bodyHtml}</div>
+      <div class="lesson-footer">
+        <button class="btn btn--nav" id="prevBtn">← Anterioara</button>
+        <button class="btn btn--done ${isDone?'is-done':''}" id="doneBtn">
+          ${isDone ? '✓ Finalizată' : 'Marchează ca finalizată'}
+        </button>
+        <button class="btn btn--nav" id="nextBtn">Următoarea →</button>
+      </div>`;
+    window.scrollTo({top:0, behavior:'smooth'});
+
+    document.getElementById('doneBtn').addEventListener('click',()=>{
+      state.done[key(mi,li)] = !state.done[key(mi,li)];
+      save(); buildNav(); updateProgress(); openLesson(mi,li);
+    });
+    const flat = [];
+    CURRICULUM.forEach((m,i)=>m.lessons.forEach((_,j)=>flat.push([i,j])));
+    const idx = flat.findIndex(([a,b])=>a===mi&&b===li);
+    const prev = document.getElementById('prevBtn');
+    const next = document.getElementById('nextBtn');
+    prev.disabled = idx<=0;
+    next.disabled = idx>=flat.length-1;
+    prev.addEventListener('click',()=>{ if(idx>0) openLesson(...flat[idx-1]); });
+    next.addEventListener('click',()=>{ if(idx<flat.length-1) openLesson(...flat[idx+1]); });
+
+    buildNav();
+  }
+
+  /* ── MANIFEST — Cine suntem ── */
+  function openManifest() {
+    state.view = 'manifest';
+    save();
+    document.getElementById('manifestBtn').classList.add('active');
+    document.querySelectorAll('.lesson-item.active').forEach(el=>el.classList.remove('active'));
+    const view = document.getElementById('lessonView');
+    view.classList.add('is-manifest');
+    view.innerHTML = `
+      <div class="manifest">
+        <header class="manifest-hero">
+          <div class="m-eyebrow">Casă de AI &amp; Idei · Est. 2026</div>
+          <div class="m-monogram">A</div>
+          <h1>Cine <em>suntem</em></h1>
+          <p class="m-tagline">Oameni care se încred în forțele proprii — și le transformă în platforme.</p>
+          <div class="m-flourish">✦</div>
+        </header>
+
+        <div class="manifest-body">
+          <section class="m-section">
+            <div class="m-kicker">Ce reprezentăm</div>
+            <h2><span class="num">01</span>Încrederea în forțele proprii</h2>
+            <p class="m-lead">Nu așteptăm ca cineva din afară să ne construiască viitorul. Am descoperit un adevăr simplu și eliberator: <strong>putem ridica singuri un website complet funcțional</strong>, de la prima linie de cod până la clientul care apasă „rezervă". Ceea ce părea rezervat corporațiilor și agențiilor scumpe este, de fapt, la îndemâna celui care vrea să învețe.</p>
+            <p>Suntem artizani ai epocii digitale. Îmbinăm meșteșugul vechi — răbdarea, grija pentru detaliu, mândria lucrului bine făcut — cu unealta cea mai puternică a momentului: inteligența artificială. Fiecare pagină pe care o construim este o dovadă că <strong>autonomia se învață</strong>, iar cunoașterea, odată dobândită, nu ne mai poate fi luată.</p>
+            <div class="m-quote">Nu cumpărăm viitorul de-a gata. Îl artizanăm cu mâna noastră, rând cu rând.</div>
+            <p>Aceasta reprezentăm: încredere, măiestrie și independență. Un atelier modern în care ideea devine platformă, iar platforma devine afacere.</p>
+          </section>
+
+          <section class="m-section">
+            <div class="m-kicker">Obiectivele noastre</div>
+            <h2><span class="num">02</span>Două ținte, un singur drum</h2>
+            <div class="obj-grid">
+              <div class="obj-card">
+                <div class="obj-badge">a</div>
+                <h3>Beneficii financiare prin monetizare</h3>
+                <p>Transformăm platforma dintr-o vitrină într-un motor care aduce venit. Abonamente, servicii digitale, rezervări, parteneriate și produse — fiecare funcție construită are un rost economic clar. Nu creăm frumos de dragul frumosului; creăm valoare care se măsoară.</p>
+                <span class="obj-tag">Venit sustenabil</span>
+              </div>
+              <div class="obj-card">
+                <div class="obj-badge">b</div>
+                <h3>Artizanarea site-ului &amp; ideile de business</h3>
+                <p>Șlefuim fiecare detaliu al platformei ca un bijutier — design, viteză, experiență, „creierul" AI din spate. Și, în paralel, punem în practică ideile de business: hub-uri fizice inteligente, replicabile pe orice locație, de la o mănăstire la un șantier.</p>
+                <span class="obj-tag">Meșteșug &amp; execuție</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="m-section">
+            <div class="m-kicker">Meșteșugul cafelei</div>
+            <h2><span class="num">03</span>O notă de grație</h2>
+            <p class="m-lead">Totul a început pe un podiș din Etiopia, în ținutul Kaffa. Legenda spune că un cioban pe nume Kaldi și-a văzut caprele jucând de bucurie după ce mâncaseră niște boabe roșii. Așa s-a născut prietenia dintre om și cafea — o poveste veche de peste o mie de ani.</p>
+            <p>Din Yemen, prin primele case de cafea ale Orientului, cafeaua a călătorit la Veneția, Viena și Londra. Peste tot a devenit același lucru: nu doar o băutură, ci un <strong>pretext de a sta împreună și a vorbi</strong>. Casele de cafea erau numite „școli ale înțelepților". Exact spiritul locului nostru.</p>
+            <div class="m-quote">Vino. Stai. Vom vorbi. — o cafea veritabilă cere doar un loc și niște prieteni.</div>
+
+            <div class="m-subhead">Centura cafelei — de unde vine grația</div>
+            <p>Cafeaua bună crește doar între Tropice, în „centura cafelei" — la altitudine, în soare blând și pământ vulcanic. Fiecare origine își pune amprenta ei, o notă distinctă de grație. Acestea sunt casele din care alegem boabele:</p>
+            <div class="coffee-belt">
+              <div class="origin-card">
+                <div class="bean">◗◗◗</div>
+                <span class="region">Africa · leagănul</span>
+                <h4>Etiopia</h4>
+                <div class="notes">Florală, iasomie și bergamotă, aciditate de citrice. Eleganță pură.</div>
+              </div>
+              <div class="origin-card">
+                <div class="bean">◗◗</div>
+                <span class="region">America de Sud</span>
+                <h4>Columbia</h4>
+                <div class="notes">Dulce-echilibrată, caramel și nucă, un final rotund. Cafeaua prietenoasă.</div>
+              </div>
+              <div class="origin-card">
+                <div class="bean">◗◗</div>
+                <span class="region">America de Sud</span>
+                <h4>Brazilia</h4>
+                <div class="notes">Ciocolată și alună, corp catifelat, aciditate joasă. Confort în ceașcă.</div>
+              </div>
+              <div class="origin-card">
+                <div class="bean">◗◗◗</div>
+                <span class="region">Africa de Est</span>
+                <h4>Kenya</h4>
+                <div class="notes">Coacăze negre, aciditate vie, structură de vin. Intensitate nobilă.</div>
+              </div>
+              <div class="origin-card">
+                <div class="bean">◗◗</div>
+                <span class="region">America Centrală</span>
+                <h4>Guatemala</h4>
+                <div class="notes">Cacao și condimente, corp plin, dulceață de fructe coapte.</div>
+              </div>
+              <div class="origin-card">
+                <div class="bean">◗◗</div>
+                <span class="region">America Centrală</span>
+                <h4>Costa Rica</h4>
+                <div class="notes">Miere și citrice limpezi, curată și strălucitoare. Lumină în ceașcă.</div>
+              </div>
+            </div>
+
+            <div class="assets-line">
+              <span class="asset-chip">Avem <b>vad</b></span>
+              <span class="asset-chip">Avem <b>prieteni</b></span>
+              <span class="asset-chip">Avem <b>cafenea</b></span>
+              <span class="asset-chip">Avem <b>meserie</b></span>
+            </div>
+            <p class="assets-note">Deja achiziționăm boabele. Restul e meșteșug — și puțină gândire. Să gândim.</p>
+          </section>
+
+          <div class="m-cta">
+            <h3>De la <em>manifest</em> la măiestrie</h3>
+            <p>Cursul care urmează este drumul concret: de la fundamentele AI la hub-ul tău replicabil.</p>
+            <button class="btn btn--enter" id="enterCourse">Începe cursul →</button>
+          </div>
+        </div>
+      </div>`;
+    window.scrollTo({top:0, behavior:'smooth'});
+    document.getElementById('enterCourse').addEventListener('click',()=>{
+      openLesson(state.current[0]||0, state.current[1]||0);
+    });
+    if (window.innerWidth <= 900) toggleSidebar(false);
+  }
+  document.getElementById('manifestBtn').addEventListener('click',()=>{
+    openManifest();
+    if (window.innerWidth <= 900) toggleSidebar(false);
+  });
+
+  /* mobile sidebar */
+  function toggleSidebar(force) {
+    const sb = document.getElementById('sidebar');
+    const bd = document.getElementById('backdrop');
+    const open = force===undefined ? !sb.classList.contains('open') : force;
+    sb.classList.toggle('open', open);
+    bd.classList.toggle('show', open);
+  }
+  document.getElementById('menuToggle').addEventListener('click',()=>toggleSidebar());
+  document.getElementById('backdrop').addEventListener('click',()=>toggleSidebar(false));
+
+  /* init */
+  load();
+  buildNav();
+  updateProgress();
+  if (state.view === 'lesson') {
+    openLesson(state.current[0], state.current[1]);
+  } else {
+    openManifest();
+  }
+  </script>
+</body>
+</html>
