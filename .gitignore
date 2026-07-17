@@ -1,7 +1,8 @@
-# Source project for the ARMONIA book site is kept local only.
-# The PUBLISHED build lives in /carte/ (committed). Regenerate with:
-#   cd armonia; npm run build; then copy armonia/dist/* into ../carte/
+# Source projects are kept local only; the PUBLISHED builds are committed:
+#   armonia/     (sursă site carte)  -> build comis în /carte/   (cd armonia; ./publish.ps1)
+#   armonia-app/ (sursă aplicație)   -> build comis în /app/     (cd armonia-app; ./publish.ps1)
 armonia/
+armonia-app/
 
 # Local tooling / other local-only folders
 .claude/
